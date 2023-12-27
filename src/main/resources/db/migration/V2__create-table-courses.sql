@@ -1,4 +1,4 @@
-create table users(
+create table courses(
     id bigint not null auto_increment,
     name varchar(30) not null,
     category varchar(30) not null,

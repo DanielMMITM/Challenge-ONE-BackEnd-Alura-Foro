@@ -4,7 +4,12 @@ create table posts(
     text text not null,
     post_date datetime not null,
     status_post tinyint not null,
-    author varchar(80) not null,
-    course varchar(80),
+    user_id bigint not null,
+    course_id bigint not null,
 
-    primary key(id));
+    primary key(id),
+
+    constraint fk_posts_course_id foreign key(course_id) references courses(id),
+    constraint fk_posts_user_id foreign key(user_id) references users(id)
+
+    );
