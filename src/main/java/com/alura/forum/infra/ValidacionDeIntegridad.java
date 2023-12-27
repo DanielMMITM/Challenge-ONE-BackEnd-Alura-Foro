@@ -1,4 +1,4 @@
-package com.alura.infra;
+package com.alura.forum.infra;
 
 public class ValidacionDeIntegridad extends RuntimeException {
     public ValidacionDeIntegridad(String s) {
