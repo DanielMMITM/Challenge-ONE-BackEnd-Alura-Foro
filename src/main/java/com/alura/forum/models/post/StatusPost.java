@@ -1,8 +1,8 @@
 package com.alura.forum.models.post;
 
 public enum StatusPost {
-    NO_RESPONDIDO,
-    NO_SOLUCIONADO,
-    SOLUCIONADO,
-    CERRADO;
+    NOT_RESPONDED,
+    NOT_SOLVED,
+    SOLVED,
+    CLOSED;
 }
