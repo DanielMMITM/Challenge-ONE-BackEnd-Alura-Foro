@@ -3,7 +3,9 @@ package com.alura.forum.controllers;
 import com.alura.forum.models.post.DataListPosts;
 import com.alura.forum.models.post.DataPost;
 import com.alura.forum.models.post.DataResponsePost;
+import com.alura.forum.models.post.Post;
 import com.alura.forum.services.PostService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,7 @@ public class PostController {
     PostService postService;
 
     @PostMapping
+    @Transactional
     public ResponseEntity<DataResponsePost> publish(@Valid @RequestBody DataPost dataPost, UriComponentsBuilder uriComponentsBuilder){
         return new ResponseEntity(postService.publish(dataPost, uriComponentsBuilder), HttpStatus.CREATED);
     }
@@ -33,6 +36,12 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity<DataResponsePost>viewPost(@PathVariable Long id){
         return new ResponseEntity(postService.viewPost(id), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deletePost(@PathVariable Long id){
+        return postService.deletePost(id);
     }
 
 

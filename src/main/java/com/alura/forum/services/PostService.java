@@ -59,4 +59,10 @@ public class PostService {
                 ,post.getCourse().getId(), post.getAnswers(),post.getPost_date());
         return ResponseEntity.ok(dataResponsePost);
     }
+
+    public ResponseEntity deletePost(Long id){
+        Post post = postRepository.getReferenceById(id);
+        postRepository.delete(post);
+        return ResponseEntity.ok("Post deleted succesfully!");
+    }
 }
