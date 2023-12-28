@@ -2,7 +2,7 @@ create table posts(
     id bigint not null auto_increment,
     title varchar(80) not null,
     text text not null,
-    status_post tinyint not null,
+    status_post varchar(20) not null,
     user_id bigint not null,
     course_id bigint not null,
     post_date datetime not null,
