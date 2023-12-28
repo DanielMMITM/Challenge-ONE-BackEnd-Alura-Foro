@@ -2,6 +2,7 @@ package com.alura.forum.services;
 
 import com.alura.forum.infra.ValidacionDeIntegridad;
 import com.alura.forum.models.course.Course;
+import com.alura.forum.models.post.DataListPosts;
 import com.alura.forum.models.post.DataPost;
 import com.alura.forum.models.post.DataResponsePost;
 import com.alura.forum.models.post.Post;
@@ -10,6 +11,9 @@ import com.alura.forum.repositories.CourseRepository;
 import com.alura.forum.repositories.PostRepository;
 import com.alura.forum.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -44,5 +48,9 @@ public class PostService {
                 post.getAuthor().getId(), post.getCourse().getId(), post.getAnswers(), post.getPost_date());
         URI url = uriComponentsBuilder.path("/posts/{id}").buildAndExpand(post.getId()).toUri();
         return ResponseEntity.created(url).body(dataResponsePost);
+    }
+
+    public Page<DataListPosts> listPosts(Pageable paginacion){
+        return postRepository.findAll(paginacion).map(DataListPosts::new);
     }
 }

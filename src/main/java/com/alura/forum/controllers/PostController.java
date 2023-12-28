@@ -1,10 +1,14 @@
 package com.alura.forum.controllers;
 
+import com.alura.forum.models.post.DataListPosts;
 import com.alura.forum.models.post.DataPost;
 import com.alura.forum.models.post.DataResponsePost;
 import com.alura.forum.services.PostService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,5 +24,11 @@ public class PostController {
     public ResponseEntity<DataResponsePost> publish(@Valid @RequestBody DataPost dataPost, UriComponentsBuilder uriComponentsBuilder){
         return new ResponseEntity(postService.publish(dataPost, uriComponentsBuilder), HttpStatus.CREATED);
     }
+
+    @GetMapping
+    public ResponseEntity<Page<DataListPosts>> listPosts(@PageableDefault(size = 2) Pageable paginacion){
+        return new ResponseEntity(postService.listPosts(paginacion), HttpStatus.OK);
+    }
+
 
 }
