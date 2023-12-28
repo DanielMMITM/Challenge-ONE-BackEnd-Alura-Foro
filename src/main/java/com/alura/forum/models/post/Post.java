@@ -24,10 +24,14 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
+
     private String text;
+
     @Enumerated(EnumType.STRING)
-    private StatusPost status_post = StatusPost.NO_RESPONDIDO;
+    private StatusPost status_post;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User author;
@@ -38,8 +42,16 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Response> answers = new ArrayList<>();
-    private LocalDateTime post_date = LocalDateTime.now();
 
+    private LocalDateTime post_date;
 
+    public Post(DataPost dataPost, User user, Course course){
+        this.title = dataPost.title();
+        this.text = dataPost.text();
+        this.status_post = StatusPost.NOT_RESPONDED;
+        this.author = user;
+        this.course = course;
+        this.post_date = LocalDateTime.now();
+    }
 
 }

@@ -1,11 +1,24 @@
 package com.alura.forum.models.post;
 
-import com.alura.forum.models.course.Course;
-import com.alura.forum.models.user.User;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.alura.forum.models.response.Response;
+
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-public record DataResponsePost() {
+public record DataResponsePost(
+        Long id,
+        String title,
+
+        String text,
+
+        String status_post,
+
+        Long user_id,
+
+        Long course_id,
+
+        List<Response> answers,
+
+        LocalDateTime post_date){
 }
