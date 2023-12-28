@@ -13,7 +13,6 @@ import com.alura.forum.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -52,5 +51,12 @@ public class PostService {
 
     public Page<DataListPosts> listPosts(Pageable paginacion){
         return postRepository.findAll(paginacion).map(DataListPosts::new);
+    }
+
+    public ResponseEntity<DataResponsePost> viewPost(Long id){
+        Post post = postRepository.getReferenceById(id);
+        DataResponsePost dataResponsePost = new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(), post.getAuthor().getId()
+                ,post.getCourse().getId(), post.getAnswers(),post.getPost_date());
+        return ResponseEntity.ok(dataResponsePost);
     }
 }

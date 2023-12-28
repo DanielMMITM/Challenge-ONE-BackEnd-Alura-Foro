@@ -30,5 +30,10 @@ public class PostController {
         return new ResponseEntity(postService.listPosts(paginacion), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<DataResponsePost>viewPost(@PathVariable Long id){
+        return new ResponseEntity(postService.viewPost(id), HttpStatus.OK);
+    }
+
 
 }
