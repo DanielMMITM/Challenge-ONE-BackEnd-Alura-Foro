@@ -38,7 +38,7 @@ public class PostController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity deletePost(@PathVariable Long id){
-        return postService.deletePost(id);
+        return ResponseEntity.ok(postService.deletePost(id));
     }
 
     @PutMapping

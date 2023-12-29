@@ -50,17 +50,17 @@ public class PostService {
         return postRepository.findAll(paginacion).map(DataListPosts::new);
     }
 
-    public ResponseEntity<DataResponsePost> viewPost(Long id){
+    public DataResponsePost viewPost(Long id){
         Post post = postRepository.getReferenceById(id);
         DataResponsePost dataResponsePost = new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(), post.getAuthor().getId()
                 ,post.getCourse().getId(), post.getAnswers(),post.getPost_date());
-        return ResponseEntity.ok(dataResponsePost);
+        return dataResponsePost;
     }
 
-    public ResponseEntity deletePost(Long id){
+    public String deletePost(Long id){
         Post post = postRepository.getReferenceById(id);
         postRepository.delete(post);
-        return ResponseEntity.ok("Post deleted succesfully!");
+        return "Post deleted successfully!";
     }
 
     public DataResponsePost updatePost(DataUpdatePost dataUpdatePost) {
