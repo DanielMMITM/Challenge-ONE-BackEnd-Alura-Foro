@@ -17,12 +17,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping("/posts")
 public class PostController {
     @Autowired
-    private static PostService postService;
+    private PostService postService;
 
     @PostMapping
     @Transactional
     public ResponseEntity<DataResponsePost> publish(@Valid @RequestBody DataPost dataPost, UriComponentsBuilder uriComponentsBuilder){
-        return new ResponseEntity(postService.publish(dataPost, uriComponentsBuilder), HttpStatus.CREATED);
+        return postService.publish(dataPost, uriComponentsBuilder);
     }
 
     @GetMapping
