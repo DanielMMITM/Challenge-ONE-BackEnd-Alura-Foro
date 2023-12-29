@@ -27,7 +27,7 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<Page<DataListPosts>> listPosts(@PageableDefault(size = 2) Pageable paginacion){
-        return new ResponseEntity(postService.listPosts(paginacion), HttpStatus.OK);
+        return ResponseEntity.ok(postService.listPosts(paginacion));
     }
 
     @GetMapping("/{id}")
