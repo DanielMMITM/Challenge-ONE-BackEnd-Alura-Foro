@@ -1,9 +1,6 @@
 package com.alura.forum.controllers;
 
-import com.alura.forum.models.post.DataListPosts;
-import com.alura.forum.models.post.DataPost;
-import com.alura.forum.models.post.DataResponsePost;
-import com.alura.forum.models.post.Post;
+import com.alura.forum.models.post.*;
 import com.alura.forum.services.PostService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -42,6 +39,12 @@ public class PostController {
     @Transactional
     public ResponseEntity deletePost(@PathVariable Long id){
         return postService.deletePost(id);
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<DataResponsePost> updatePost(@RequestBody @Valid DataUpdatePost dataUpdatePost){
+        return ResponseEntity.ok(postService.updatePost(dataUpdatePost));
     }
 
 

@@ -2,10 +2,7 @@ package com.alura.forum.services;
 
 import com.alura.forum.infra.ValidacionDeIntegridad;
 import com.alura.forum.models.course.Course;
-import com.alura.forum.models.post.DataListPosts;
-import com.alura.forum.models.post.DataPost;
-import com.alura.forum.models.post.DataResponsePost;
-import com.alura.forum.models.post.Post;
+import com.alura.forum.models.post.*;
 import com.alura.forum.models.user.User;
 import com.alura.forum.repositories.CourseRepository;
 import com.alura.forum.repositories.PostRepository;
@@ -64,5 +61,26 @@ public class PostService {
         Post post = postRepository.getReferenceById(id);
         postRepository.delete(post);
         return ResponseEntity.ok("Post deleted succesfully!");
+    }
+
+    public DataResponsePost updatePost(DataUpdatePost dataUpdatePost) {
+        Post post = postRepository.getReferenceById(dataUpdatePost.id());
+
+        Course course = courseRepository.findById(dataUpdatePost.course_id()).get();
+
+        post.setTitle(dataUpdatePost.title());
+        post.setText(dataUpdatePost.text());
+        post.setCourse(course);
+
+        if(dataUpdatePost.status_post() != null) {
+            post.setStatus_post(dataUpdatePost.status_post());
+        }
+
+        postRepository.save(post);
+
+        DataResponsePost dataResponsePost = new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(), post.getAuthor().getId()
+                ,post.getCourse().getId(), post.getAnswers(),post.getPost_date());
+
+        return dataResponsePost;
     }
 }
