@@ -1,10 +1,7 @@
 package com.alura.forum.models.user;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 @Table(name = "users")
@@ -21,4 +18,10 @@ public class User {
     private String name;
     private String email;
     private String password;
+
+    public User (DataSignUpUser dataSignUpUser){
+        this.name = dataSignUpUser.name();
+        this.email = dataSignUpUser.email();
+        this.password = dataSignUpUser.password();
+    }
 }
