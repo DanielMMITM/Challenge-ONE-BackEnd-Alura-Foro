@@ -17,7 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping("/posts")
 public class PostController {
     @Autowired
-    PostService postService;
+    private static PostService postService;
 
     @PostMapping
     @Transactional
