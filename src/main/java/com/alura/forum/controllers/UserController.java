@@ -27,4 +27,10 @@ public class UserController {
     public ResponseEntity<UserDetails> userDetails(@PathVariable Long id){
         return new ResponseEntity(userService.userDetails(id), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deleteUser(@PathVariable Long id){
+        return ResponseEntity.ok(userService.deleteUser(id));
+    }
 }
