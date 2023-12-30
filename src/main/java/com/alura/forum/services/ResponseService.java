@@ -11,12 +11,9 @@ import com.alura.forum.models.user.User;
 import com.alura.forum.repositories.PostRepository;
 import com.alura.forum.repositories.ResponseRepository;
 import com.alura.forum.repositories.UserRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -27,10 +24,13 @@ public class ResponseService {
     private ResponseRepository responseRepository;
 
     @Autowired
-    PostRepository postRepository;
+    private PostRepository postRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private PostService postService;
 
     public DataResponseBody addResponse(DataResponse dataResponse){
         if (!postRepository.findById(dataResponse.post_id()).isPresent()){
@@ -45,6 +45,11 @@ public class ResponseService {
         User user = userRepository.findById(dataResponse.user_id()).get();
 
         Response response = responseRepository.save(new Response(dataResponse, post, user));
+
+        post.addAnswer(response);
+
+        postRepository.save(post);
+
         DataResponseBody dataResponseBody = new DataResponseBody(response.getId(), response.getText(), response.getSolution(),
                 response.getPost().getId(), response.getAuthor().getId(), response.getResponse_date());
 //        DataResponsePost dataResponsePost = new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(),
