@@ -33,4 +33,10 @@ public class ResponseController {
         return ResponseEntity.ok(responseService.updateResponse(dataUpdateResponse));
     }
 
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deleteResponse(@PathVariable Long id){
+        return ResponseEntity.ok(responseService.deletePost(id));
+    }
+
 }

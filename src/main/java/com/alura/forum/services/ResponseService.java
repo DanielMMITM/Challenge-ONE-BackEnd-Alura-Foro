@@ -11,9 +11,12 @@ import com.alura.forum.models.user.User;
 import com.alura.forum.repositories.PostRepository;
 import com.alura.forum.repositories.ResponseRepository;
 import com.alura.forum.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -66,4 +69,9 @@ public class ResponseService {
     }
 
 
+    public String deletePost(Long id) {
+        Response response = responseRepository.getReferenceById(id);
+        responseRepository.delete(response);
+        return "Response deleted successfully!";
+    }
 }
