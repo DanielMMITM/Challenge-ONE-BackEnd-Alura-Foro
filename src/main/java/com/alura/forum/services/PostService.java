@@ -32,7 +32,7 @@ public class PostService {
         if (!userRepository.findById(dataPost.user_id()).isPresent()){
             throw new ValidacionDeIntegridad("Este id para el usuario no fue encontrado");
         }
-        if (!courseRepository.findById(dataPost.user_id()).isPresent()){
+        if (!courseRepository.findById(dataPost.course_id()).isPresent()){
             throw new ValidacionDeIntegridad("Este id para el curso no fue encontrado");
         }
 
