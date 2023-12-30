@@ -33,7 +33,6 @@ public class Response {
 
     private LocalDateTime response_date;
 
-
     public Response(DataResponse dataResponse, Post post, User user){
         this.text = dataResponse.text();
         this.solution = false;
@@ -42,4 +41,7 @@ public class Response {
         this.response_date = LocalDateTime.now();
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
 }
