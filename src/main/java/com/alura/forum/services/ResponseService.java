@@ -5,6 +5,7 @@ import com.alura.forum.models.post.DataResponsePost;
 import com.alura.forum.models.post.Post;
 import com.alura.forum.models.response.DataResponse;
 import com.alura.forum.models.response.DataResponseBody;
+import com.alura.forum.models.response.DataUpdateResponse;
 import com.alura.forum.models.response.Response;
 import com.alura.forum.models.user.User;
 import com.alura.forum.repositories.PostRepository;
@@ -50,5 +51,19 @@ public class ResponseService {
         return dataResponseBody;
 
     }
+
+    public DataResponseBody updateResponse(DataUpdateResponse dataUpdateResponse) {
+        Response response = responseRepository.getReferenceById(dataUpdateResponse.id());
+
+        response.setText(dataUpdateResponse.text());
+
+        responseRepository.save(response);
+
+        DataResponseBody dataResponseBody = new DataResponseBody(response.getId(), response.getText(), response.getSolution(),
+                response.getPost().getId(), response.getAuthor().getId(), response.getResponse_date());
+
+        return dataResponseBody;
+    }
+
 
 }
