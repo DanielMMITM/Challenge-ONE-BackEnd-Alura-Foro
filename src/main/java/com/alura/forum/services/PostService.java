@@ -3,6 +3,8 @@ package com.alura.forum.services;
 import com.alura.forum.infra.ValidacionDeIntegridad;
 import com.alura.forum.models.course.Course;
 import com.alura.forum.models.post.*;
+import com.alura.forum.models.response.DataResponseBody;
+import com.alura.forum.models.response.Response;
 import com.alura.forum.models.user.User;
 import com.alura.forum.repositories.CourseRepository;
 import com.alura.forum.repositories.PostRepository;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -41,7 +45,7 @@ public class PostService {
 
         Post post = postRepository.save(new Post(dataPost, user, course));
         DataResponsePost dataResponsePost = new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(),
-                post.getAuthor().getId(), post.getCourse().getId(), post.getAnswers(), post.getPost_date());
+                post.getAuthor().getId(), post.getCourse().getId(), post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()), post.getPost_date());
         URI url = uriComponentsBuilder.path("/posts/{id}").buildAndExpand(post.getId()).toUri();
         return ResponseEntity.created(url).body(dataResponsePost);
     }
@@ -52,9 +56,9 @@ public class PostService {
 
     public DataResponsePost viewPost(Long id){
         Post post = postRepository.getReferenceById(id);
-        DataResponsePost dataResponsePost = new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(), post.getAuthor().getId()
-                ,post.getCourse().getId(), post.getAnswers(),post.getPost_date());
-        return dataResponsePost;
+        System.out.println(post.getAnswers());
+        return new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(), post.getAuthor().getId()
+                ,post.getCourse().getId(),post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()), post.getPost_date());
     }
 
     public String deletePost(Long id){
@@ -79,7 +83,7 @@ public class PostService {
         postRepository.save(post);
 
         DataResponsePost dataResponsePost = new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(), post.getAuthor().getId()
-                ,post.getCourse().getId(), post.getAnswers(),post.getPost_date());
+                ,post.getCourse().getId(), post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()),post.getPost_date());
 
         return dataResponsePost;
     }
