@@ -21,7 +21,7 @@ public class Response {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String text;
-    private Boolean solution = false;
+    private Boolean solution;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
@@ -31,6 +31,15 @@ public class Response {
     @JoinColumn(name = "user_id")
     private User author;
 
-    private LocalDateTime response_date = LocalDateTime.now();
+    private LocalDateTime response_date;
+
+
+    public Response(DataResponse dataResponse, Post post, User user){
+        this.text = dataResponse.text();
+        this.solution = false;
+        this.post = post;
+        this.author = user;
+        this.response_date = LocalDateTime.now();
+    }
 
 }
