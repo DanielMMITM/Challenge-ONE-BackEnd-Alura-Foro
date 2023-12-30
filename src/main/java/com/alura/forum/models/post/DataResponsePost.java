@@ -1,5 +1,6 @@
 package com.alura.forum.models.post;
 
+import com.alura.forum.models.response.DataResponseBody;
 import com.alura.forum.models.response.Response;
 
 
@@ -18,7 +19,7 @@ public record DataResponsePost(
 
         Long course_id,
 
-        List<Response> answers,
+        List<DataResponseBody> answers,
 
         LocalDateTime post_date){
 }

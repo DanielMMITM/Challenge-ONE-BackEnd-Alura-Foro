@@ -3,6 +3,8 @@ package com.alura.forum.models.post;
 import com.alura.forum.models.course.Course;
 import com.alura.forum.models.response.Response;
 import com.alura.forum.models.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Table(name = "posts")
 @Entity(name = "Post")
+@JsonInclude(JsonInclude.Include.ALWAYS)
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,6 +45,7 @@ public class Post {
     private Course course;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Response> answers = new ArrayList<>();
 
     private LocalDateTime post_date;
@@ -53,6 +57,11 @@ public class Post {
         this.author = user;
         this.course = course;
         this.post_date = LocalDateTime.now();
+
+    }
+
+    public void addAnswer(Response response){
+        this.answers.add(response);
     }
 
 }
