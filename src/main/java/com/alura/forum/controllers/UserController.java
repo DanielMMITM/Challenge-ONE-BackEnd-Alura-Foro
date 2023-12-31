@@ -17,11 +17,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    @Transactional
-    public ResponseEntity signUp(@Valid @RequestBody DataSignUpUser dataSignUpUser){
-        return ResponseEntity.ok(userService.signUp(dataSignUpUser));
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDetails> userDetails(@PathVariable Long id){
