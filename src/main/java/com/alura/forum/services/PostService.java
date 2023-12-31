@@ -21,6 +21,9 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
 
+    public static final String USER_ID_NOT_FOUND = "user id not found";
+    public static final String COURSE_ID_NOT_FOUND = "course id not found";
+    public static final String POST_DELETED_SUCCESSFULLY = "Post deleted successfully!";
     @Autowired
     private PostRepository postRepository;
 
@@ -32,18 +35,28 @@ public class PostService {
 
     public ResponseEntity<DataResponsePost> publish(DataPost dataPost, UriComponentsBuilder uriComponentsBuilder){
         if (!userRepository.findById(dataPost.user_id()).isPresent()){
-            throw new ValidacionDeIntegridad("Este id para el usuario no fue encontrado");
+            throw new ValidacionDeIntegridad(USER_ID_NOT_FOUND);
         }
         if (!courseRepository.findById(dataPost.course_id()).isPresent()){
-            throw new ValidacionDeIntegridad("Este id para el curso no fue encontrado");
+            throw new ValidacionDeIntegridad(COURSE_ID_NOT_FOUND);
         }
 
         User user = userRepository.findById(dataPost.user_id()).get();
         Course course = courseRepository.findById(dataPost.course_id()).get();
 
         Post post = postRepository.save(new Post(dataPost, user, course));
-        DataResponsePost dataResponsePost = new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(),
-                post.getAuthor().getId(), post.getCourse().getId(), post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()), post.getPost_date());
+
+        DataResponsePost dataResponsePost = DataResponsePost.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .text(post.getText())
+                .status_post(post.getStatus_post().toString())
+                .user_id(post.getAuthor().getId())
+                .course_id(post.getCourse().getId())
+                .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
+                .post_date(post.getPost_date())
+                .build();
+
         URI url = uriComponentsBuilder.path("/posts/{id}").buildAndExpand(post.getId()).toUri();
         return ResponseEntity.created(url).body(dataResponsePost);
     }
@@ -54,15 +67,25 @@ public class PostService {
 
     public DataResponsePost viewPost(Long id){
         Post post = postRepository.getReferenceById(id);
-        System.out.println(post.getAnswers());
-        return new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(), post.getAuthor().getId()
-                ,post.getCourse().getId(),post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()), post.getPost_date());
+
+       DataResponsePost dataResponsePost = DataResponsePost.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .text(post.getText())
+                .status_post(post.getStatus_post().toString())
+                .user_id(post.getAuthor().getId())
+                .course_id(post.getCourse().getId())
+                .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
+                .post_date(post.getPost_date())
+                .build();
+
+       return dataResponsePost;
     }
 
     public String deletePost(Long id){
         Post post = postRepository.getReferenceById(id);
         postRepository.delete(post);
-        return "Post deleted successfully!";
+        return POST_DELETED_SUCCESSFULLY;
     }
 
     public DataResponsePost updatePost(DataUpdatePost dataUpdatePost) {
@@ -80,7 +103,17 @@ public class PostService {
 
         postRepository.save(post);
 
-        return new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(), post.getAuthor().getId()
-                ,post.getCourse().getId(), post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()),post.getPost_date());
+        DataResponsePost dataResponsePost = DataResponsePost.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .text(post.getText())
+                .status_post(post.getStatus_post().toString())
+                .user_id(post.getAuthor().getId())
+                .course_id(post.getCourse().getId())
+                .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
+                .post_date(post.getPost_date())
+                .build();
+
+        return dataResponsePost;
     }
 }
