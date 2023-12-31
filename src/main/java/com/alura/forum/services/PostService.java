@@ -1,10 +1,9 @@
 package com.alura.forum.services;
 
-import com.alura.forum.infra.ValidacionDeIntegridad;
+import com.alura.forum.infra.errors.ValidacionDeIntegridad;
 import com.alura.forum.models.course.Course;
 import com.alura.forum.models.post.*;
 import com.alura.forum.models.response.DataResponseBody;
-import com.alura.forum.models.response.Response;
 import com.alura.forum.models.user.User;
 import com.alura.forum.repositories.CourseRepository;
 import com.alura.forum.repositories.PostRepository;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
