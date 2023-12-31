@@ -50,11 +50,11 @@ public class PostService {
                 .id(post.getId())
                 .title(post.getTitle())
                 .text(post.getText())
-                .status_post(post.getStatus_post().toString())
+                .status_post(post.getStatusPost().toString())
                 .user_id(post.getAuthor().getId())
                 .course_id(post.getCourse().getId())
                 .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
-                .post_date(post.getPost_date())
+                .post_date(post.getPostDate())
                 .build();
 
         URI url = uriComponentsBuilder.path("/posts/{id}").buildAndExpand(post.getId()).toUri();
@@ -72,11 +72,11 @@ public class PostService {
                 .id(post.getId())
                 .title(post.getTitle())
                 .text(post.getText())
-                .status_post(post.getStatus_post().toString())
+                .status_post(post.getStatusPost().toString())
                 .user_id(post.getAuthor().getId())
                 .course_id(post.getCourse().getId())
                 .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
-                .post_date(post.getPost_date())
+                .post_date(post.getPostDate())
                 .build();
 
        return dataResponsePost;
@@ -98,7 +98,7 @@ public class PostService {
         post.setCourse(course);
 
         if(dataUpdatePost.status_post() != null) {
-            post.setStatus_post(dataUpdatePost.status_post());
+            post.setStatusPost(dataUpdatePost.status_post());
         }
 
         postRepository.save(post);
@@ -107,11 +107,11 @@ public class PostService {
                 .id(post.getId())
                 .title(post.getTitle())
                 .text(post.getText())
-                .status_post(post.getStatus_post().toString())
+                .status_post(post.getStatusPost().toString())
                 .user_id(post.getAuthor().getId())
                 .course_id(post.getCourse().getId())
                 .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
-                .post_date(post.getPost_date())
+                .post_date(post.getPostDate())
                 .build();
 
         return dataResponsePost;
