@@ -21,8 +21,7 @@ public class UserService {
 
     public UserDetails userDetails(Long id) {
         User user = userRepository.getReferenceById(id);
-        UserDetails userDetails = new UserDetails(user.getId(), user.getName(), user.getEmail());
-        return userDetails;
+        return new UserDetails(user.getId(), user.getName(), user.getEmail());
     }
 
     public String deleteUser(Long id){

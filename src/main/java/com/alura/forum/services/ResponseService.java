@@ -50,13 +50,12 @@ public class ResponseService {
 
         postRepository.save(post);
 
-        DataResponseBody dataResponseBody = new DataResponseBody(response.getId(), response.getText(), response.getSolution(),
-                response.getPost().getId(), response.getAuthor().getId(), response.getResponse_date());
 //        DataResponsePost dataResponsePost = new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(),
 //                post.getAuthor().getId(), post.getCourse().getId(), post.getAnswers(), post.getPost_date());
 
 //        URI url = uriComponentsBuilder.path("/posts/{id}").buildAndExpand(post.getId()).toUri();
-        return dataResponseBody;
+        return new DataResponseBody(response.getId(), response.getText(), response.getSolution(),
+                response.getPost().getId(), response.getAuthor().getId(), response.getResponse_date());
 
     }
 
@@ -67,10 +66,8 @@ public class ResponseService {
 
         responseRepository.save(response);
 
-        DataResponseBody dataResponseBody = new DataResponseBody(response.getId(), response.getText(), response.getSolution(),
+        return new DataResponseBody(response.getId(), response.getText(), response.getSolution(),
                 response.getPost().getId(), response.getAuthor().getId(), response.getResponse_date());
-
-        return dataResponseBody;
     }
 
 

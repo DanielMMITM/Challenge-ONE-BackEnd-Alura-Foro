@@ -82,9 +82,7 @@ public class PostService {
 
         postRepository.save(post);
 
-        DataResponsePost dataResponsePost = new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(), post.getAuthor().getId()
+        return new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(), post.getAuthor().getId()
                 ,post.getCourse().getId(), post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()),post.getPost_date());
-
-        return dataResponsePost;
     }
 }
