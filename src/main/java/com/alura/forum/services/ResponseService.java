@@ -1,6 +1,7 @@
 package com.alura.forum.services;
 
 import com.alura.forum.infra.errors.ValidacionDeIntegridad;
+import com.alura.forum.models.post.DataResponsePost;
 import com.alura.forum.models.post.Post;
 import com.alura.forum.models.response.DataResponse;
 import com.alura.forum.models.response.DataResponseBody;
@@ -13,8 +14,13 @@ import com.alura.forum.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
+
 @Service
 public class ResponseService {
+    public static final String POST_ID_NOT_FOUND = "post id not found";
+    public static final String USER_ID_NOT_FOUND = "user id not found";
+    public static final String DELETED_SUCCESSFULLY = "Response deleted successfully!";
     @Autowired
     private ResponseRepository responseRepository;
 
@@ -29,10 +35,10 @@ public class ResponseService {
 
     public DataResponseBody addResponse(DataResponse dataResponse){
         if (!postRepository.findById(dataResponse.post_id()).isPresent()){
-            throw new ValidacionDeIntegridad("Este id para el post no fue encontrado");
+            throw new ValidacionDeIntegridad(POST_ID_NOT_FOUND);
         }
         if (!userRepository.findById(dataResponse.user_id()).isPresent()){
-            throw new ValidacionDeIntegridad("Este id para el usuario no fue encontrado");
+            throw new ValidacionDeIntegridad(USER_ID_NOT_FOUND);
         }
 
         Post post = postRepository.findById(dataResponse.post_id()).get();
@@ -45,12 +51,16 @@ public class ResponseService {
 
         postRepository.save(post);
 
-//        DataResponsePost dataResponsePost = new DataResponsePost(post.getId(), post.getTitle(), post.getText(), post.getStatus_post().toString(),
-//                post.getAuthor().getId(), post.getCourse().getId(), post.getAnswers(), post.getPost_date());
+        DataResponseBody dataResponseBody = DataResponseBody.builder()
+                .id(response.getId())
+                .text(response.getText())
+                .solution(response.getSolution())
+                .postId(response.getPost().getId())
+                .userId(response.getUser().getId())
+                .response_date(response.getResponseDate())
+                .build();
 
-//        URI url = uriComponentsBuilder.path("/posts/{id}").buildAndExpand(post.getId()).toUri();
-        return new DataResponseBody(response.getId(), response.getText(), response.getSolution(),
-                response.getPost().getId(), response.getUser().getId(), response.getResponseDate());
+        return dataResponseBody;
 
     }
 
@@ -61,14 +71,22 @@ public class ResponseService {
 
         responseRepository.save(response);
 
-        return new DataResponseBody(response.getId(), response.getText(), response.getSolution(),
-                response.getPost().getId(), response.getUser().getId(), response.getResponseDate());
+        DataResponseBody dataResponseBody = DataResponseBody.builder()
+                .id(response.getId())
+                .text(response.getText())
+                .solution(response.getSolution())
+                .postId(response.getPost().getId())
+                .userId(response.getUser().getId())
+                .response_date(response.getResponseDate())
+                .build();
+
+        return dataResponseBody;
     }
 
 
     public String deletePost(Long id) {
         Response response = responseRepository.getReferenceById(id);
         responseRepository.delete(response);
-        return "Response deleted successfully!";
+        return DELETED_SUCCESSFULLY;
     }
 }

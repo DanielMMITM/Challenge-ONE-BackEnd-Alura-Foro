@@ -10,13 +10,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
+    public static final String CREATED_SUCCESSFULLY = "User created successfully!";
+    public static final String DELETED_SUCCESSFULLY = "User deleted successfully!";
     @Autowired
     private UserRepository userRepository;
 
     public String signUp(DataSignUpUser dataSignUpUser) {
         User user = new User(dataSignUpUser);
         userRepository.save(user);
-        return "User created successfully!";
+        return CREATED_SUCCESSFULLY;
     }
 
     public UserDetails userDetails(Long id) {
@@ -27,7 +29,7 @@ public class UserService {
     public String deleteUser(Long id){
         User user = userRepository.getReferenceById(id);
         userRepository.delete(user);
-        return "User deleted successfully!";
+        return DELETED_SUCCESSFULLY;
     }
 
 }

@@ -1,11 +1,13 @@
 package com.alura.forum.models.post;
 
 import com.alura.forum.models.response.DataResponseBody;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Builder
 public record DataListPosts(
         Long id,
         String title,
