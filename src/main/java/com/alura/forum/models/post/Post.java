@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
 @EqualsAndHashCode(of = "id")
 @Setter
 
-public class Post {
+public class Post implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +35,8 @@ public class Post {
     private String text;
 
     @Enumerated(EnumType.STRING)
-    private StatusPost status_post;
+    @Column(name = "status_post")
+    private StatusPost statusPost;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -48,15 +50,16 @@ public class Post {
     @JsonIgnore
     private List<Response> answers = new ArrayList<>();
 
-    private LocalDateTime post_date;
+    @Column(name = "post_date")
+    private LocalDateTime postDate;
 
     public Post(DataPost dataPost, User user, Course course){
         this.title = dataPost.title();
         this.text = dataPost.text();
-        this.status_post = StatusPost.NOT_RESPONDED;
+        this.statusPost = StatusPost.NOT_RESPONDED;
         this.author = user;
         this.course = course;
-        this.post_date = LocalDateTime.now();
+        this.postDate = LocalDateTime.now();
 
     }
 

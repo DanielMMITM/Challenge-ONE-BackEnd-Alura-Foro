@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Table(name = "responses")
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Response {
+public class Response implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,16 +30,17 @@ public class Response {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User author;
+    private User user;
 
-    private LocalDateTime response_date;
+    @Column(name = "response_date")
+    private LocalDateTime responseDate;
 
     public Response(DataResponse dataResponse, Post post, User user){
         this.text = dataResponse.text();
         this.solution = false;
         this.post = post;
-        this.author = user;
-        this.response_date = LocalDateTime.now();
+        this.user = user;
+        this.responseDate = LocalDateTime.now();
     }
 
     public void setText(String text) {
