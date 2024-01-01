@@ -8,8 +8,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
 @Service
-public class AuthService {
+public class AuthService{
 
     @Autowired
     private UserRepository userRepository;
@@ -22,7 +23,7 @@ public class AuthService {
 
     public AuthResponse login(DataLogInUser dataLogInUser) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dataLogInUser.name(), dataLogInUser.password()));
-        UserDetails user = userRepository.findByName(dataLogInUser.name()).orElseThrow();
+        UserDetails user = userRepository.findByUsername(dataLogInUser.name()).orElseThrow();
         String token = tokenService.getToken(user);
         return AuthResponse.builder()
                 .token(token)

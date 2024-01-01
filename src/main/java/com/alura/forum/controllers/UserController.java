@@ -1,10 +1,8 @@
 package com.alura.forum.controllers;
 
-import com.alura.forum.models.user.DataSignUpUser;
-import com.alura.forum.models.user.UserDetails;
+import com.alura.forum.models.user.UserInfo;
 import com.alura.forum.services.UserService;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +17,7 @@ public class UserController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDetails> userDetails(@PathVariable Long id){
+    public ResponseEntity<UserInfo> userDetails(@PathVariable Long id){
         return new ResponseEntity(userService.userDetails(id), HttpStatus.OK);
     }
 
