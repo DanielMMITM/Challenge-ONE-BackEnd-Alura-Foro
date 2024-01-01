@@ -1,6 +1,6 @@
 package com.alura.forum.models.user;
 
-public record UserDetails(
+public record UserInfo(
         Long id,
         String name,
         String email){
