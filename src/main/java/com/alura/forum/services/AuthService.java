@@ -1,11 +1,12 @@
 package com.alura.forum.services;
 
-import com.alura.forum.models.user.AuthResponse;
-import com.alura.forum.models.user.DataSignUpUser;
-import com.alura.forum.models.user.User;
+import com.alura.forum.models.user.*;
 import com.alura.forum.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Service
 public class AuthService {
@@ -15,6 +16,18 @@ public class AuthService {
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    public AuthResponse login(DataLogInUser dataLogInUser) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dataLogInUser.name(), dataLogInUser.password()));
+        UserDetails user = userRepository.findByName(dataLogInUser.name()).orElseThrow();
+        String token = tokenService.getToken(user);
+        return AuthResponse.builder()
+                .token(token)
+                .build();
+    }
 
     public AuthResponse signUp(DataSignUpUser dataSignUpUser) {
         User user = new User(dataSignUpUser);
