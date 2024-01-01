@@ -3,11 +3,9 @@ package com.alura.forum.models.user;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 
 @Table(name = "users")
@@ -21,12 +19,12 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String username;
     private String email;
     private String password;
 
     public User (DataSignUpUser dataSignUpUser){
-        this.name = dataSignUpUser.name();
+        this.username = dataSignUpUser.name();
         this.email = dataSignUpUser.email();
         this.password = dataSignUpUser.password();
     }
@@ -38,7 +36,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.name;
+        return this.username;
     }
 
     @Override
