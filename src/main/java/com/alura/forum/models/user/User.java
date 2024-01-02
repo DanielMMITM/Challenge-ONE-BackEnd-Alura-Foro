@@ -1,12 +1,18 @@
 package com.alura.forum.models.user;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import lombok.Getter;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
-
 
 @Builder
 @Table(name = "users")
@@ -16,7 +22,6 @@ import java.util.Collection;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -9,6 +9,5 @@ public record DataResponse(
         @NotNull
         Long post_id,
         @NotNull
-        Long user_id
-) {
+        Long user_id){
 }

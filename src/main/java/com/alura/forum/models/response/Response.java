@@ -2,13 +2,19 @@ package com.alura.forum.models.response;
 
 import com.alura.forum.models.post.Post;
 import com.alura.forum.models.user.User;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
+import jakarta.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Column;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
 
 @Table(name = "responses")
@@ -17,7 +23,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Response implements Serializable {
+public class Response{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -11,16 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Service
 public class AuthService{
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private TokenService tokenService;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private AuthenticationManager authenticationManager;
 

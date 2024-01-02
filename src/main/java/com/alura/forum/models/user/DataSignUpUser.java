@@ -10,6 +10,5 @@ public record DataSignUpUser(
         @Email
         String email,
         @NotBlank
-        String password
-) {
+        String password){
 }

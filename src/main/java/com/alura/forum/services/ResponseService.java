@@ -2,7 +2,7 @@ package com.alura.forum.services;
 
 import static com.alura.forum.constants.Constants.USER_ID_NOT_FOUND;
 import static com.alura.forum.constants.Constants.POST_ID_NOT_FOUND;
-import static com.alura.forum.constants.Constants.DELETED_SUCCESSFULLY;
+import static com.alura.forum.constants.Constants.RESPONSE_DELETED_SUCCESSFULLY;
 
 import com.alura.forum.infra.errors.IntegrityValidations;
 import com.alura.forum.models.post.Post;
@@ -21,13 +21,10 @@ import org.springframework.stereotype.Service;
 public class ResponseService {
     @Autowired
     private ResponseRepository responseRepository;
-
     @Autowired
     private PostRepository postRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private PostService postService;
 
@@ -38,15 +35,11 @@ public class ResponseService {
         if (!userRepository.findById(dataResponse.user_id()).isPresent()){
             throw new IntegrityValidations(USER_ID_NOT_FOUND);
         }
-
         Post post = postRepository.findById(dataResponse.post_id()).get();
-
         User user = userRepository.findById(dataResponse.user_id()).get();
 
         Response response = responseRepository.save(new Response(dataResponse, post, user));
-
         post.addAnswer(response);
-
         postRepository.save(post);
 
         DataResponseBody dataResponseBody = DataResponseBody.builder()
@@ -64,9 +57,7 @@ public class ResponseService {
 
     public DataResponseBody updateResponse(DataUpdateResponse dataUpdateResponse) {
         Response response = responseRepository.getReferenceById(dataUpdateResponse.id());
-
         response.setText(dataUpdateResponse.text());
-
         responseRepository.save(response);
 
         DataResponseBody dataResponseBody = DataResponseBody.builder()
@@ -81,10 +72,9 @@ public class ResponseService {
         return dataResponseBody;
     }
 
-
     public String deletePost(Long id) {
         Response response = responseRepository.getReferenceById(id);
         responseRepository.delete(response);
-        return DELETED_SUCCESSFULLY;
+        return RESPONSE_DELETED_SUCCESSFULLY;
     }
 }

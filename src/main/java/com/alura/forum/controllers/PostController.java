@@ -46,6 +46,4 @@ public class PostController {
     public ResponseEntity<DataResponsePost> updatePost(@RequestBody @Valid DataUpdatePost dataUpdatePost){
         return ResponseEntity.ok(postService.updatePost(dataUpdatePost));
     }
-
-
 }

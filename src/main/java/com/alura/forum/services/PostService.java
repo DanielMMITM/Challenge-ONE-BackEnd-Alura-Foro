@@ -3,6 +3,7 @@ package com.alura.forum.services;
 import static com.alura.forum.constants.Constants.USER_ID_NOT_FOUND;
 import static com.alura.forum.constants.Constants.COURSE_ID_NOT_FOUND;
 import static com.alura.forum.constants.Constants.POST_DELETED_SUCCESSFULLY;
+import static com.alura.forum.constants.Constants.POST_PATH;
 
 import com.alura.forum.infra.errors.IntegrityValidations;
 import com.alura.forum.models.course.Course;
@@ -23,13 +24,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class PostService {
-
     @Autowired
     private PostRepository postRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private CourseRepository courseRepository;
 
@@ -40,7 +38,6 @@ public class PostService {
         if (!courseRepository.findById(dataPost.course_id()).isPresent()){
             throw new IntegrityValidations(COURSE_ID_NOT_FOUND);
         }
-
         User user = userRepository.findById(dataPost.user_id()).get();
         Course course = courseRepository.findById(dataPost.course_id()).get();
 
@@ -57,7 +54,7 @@ public class PostService {
                 .post_date(post.getPostDate())
                 .build();
 
-        URI url = uriComponentsBuilder.path("/posts/{id}").buildAndExpand(post.getId()).toUri();
+        URI url = uriComponentsBuilder.path(POST_PATH).buildAndExpand(post.getId()).toUri();
         return ResponseEntity.created(url).body(dataResponsePost);
     }
 
@@ -90,7 +87,6 @@ public class PostService {
 
     public DataResponsePost updatePost(DataUpdatePost dataUpdatePost) {
         Post post = postRepository.getReferenceById(dataUpdatePost.id());
-
         Course course = courseRepository.findById(dataUpdatePost.course_id()).get();
 
         post.setTitle(dataUpdatePost.title());
@@ -100,7 +96,6 @@ public class PostService {
         if(dataUpdatePost.status_post() != null) {
             post.setStatusPost(dataUpdatePost.status_post());
         }
-
         postRepository.save(post);
 
         DataResponsePost dataResponsePost = DataResponsePost.builder()

@@ -1,7 +1,5 @@
 package com.alura.forum.controllers;
 
-
-import com.alura.forum.models.post.DataResponsePost;
 import com.alura.forum.models.response.DataResponse;
 import com.alura.forum.models.response.DataResponseBody;
 import com.alura.forum.models.response.DataUpdateResponse;
@@ -11,13 +9,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-
 
 @RestController
 @RequestMapping("/responses")
 public class ResponseController {
-
     @Autowired
     private ResponseService responseService;
 
@@ -38,5 +33,4 @@ public class ResponseController {
     public ResponseEntity deleteResponse(@PathVariable Long id){
         return ResponseEntity.ok(responseService.deletePost(id));
     }
-
 }

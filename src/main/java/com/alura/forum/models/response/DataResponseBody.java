@@ -11,9 +11,14 @@ public record DataResponseBody(
         Boolean solution,
         Long postId,
         Long userId,
-        LocalDateTime response_date){
-
+        LocalDateTime response_date)
+{
     public DataResponseBody(Response response){
-        this(response.getId(), response.getText(), response.getSolution().booleanValue(), response.getPost().getId(), response.getUser().getId(), response.getResponseDate());
+        this(response.getId(),
+            response.getText(),
+            response.getSolution().booleanValue(),
+            response.getPost().getId(),
+            response.getUser().getId(),
+            response.getResponseDate());
     }
 }

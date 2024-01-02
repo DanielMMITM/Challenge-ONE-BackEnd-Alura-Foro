@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
     @Autowired
     private UserService userService;
-
 
     @GetMapping("/{id}")
     public ResponseEntity<UserInfo> userDetails(@PathVariable Long id){
