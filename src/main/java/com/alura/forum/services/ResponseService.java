@@ -1,7 +1,6 @@
 package com.alura.forum.services;
 
-import com.alura.forum.infra.errors.ValidacionDeIntegridad;
-import com.alura.forum.models.post.DataResponsePost;
+import com.alura.forum.infra.errors.IntegrityValidations;
 import com.alura.forum.models.post.Post;
 import com.alura.forum.models.response.DataResponse;
 import com.alura.forum.models.response.DataResponseBody;
@@ -13,8 +12,6 @@ import com.alura.forum.repositories.ResponseRepository;
 import com.alura.forum.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.stream.Collectors;
 
 @Service
 public class ResponseService {
@@ -35,10 +32,10 @@ public class ResponseService {
 
     public DataResponseBody addResponse(DataResponse dataResponse){
         if (!postRepository.findById(dataResponse.post_id()).isPresent()){
-            throw new ValidacionDeIntegridad(POST_ID_NOT_FOUND);
+            throw new IntegrityValidations(POST_ID_NOT_FOUND);
         }
         if (!userRepository.findById(dataResponse.user_id()).isPresent()){
-            throw new ValidacionDeIntegridad(USER_ID_NOT_FOUND);
+            throw new IntegrityValidations(USER_ID_NOT_FOUND);
         }
 
         Post post = postRepository.findById(dataResponse.post_id()).get();

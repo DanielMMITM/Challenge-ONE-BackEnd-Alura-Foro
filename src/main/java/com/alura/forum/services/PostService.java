@@ -1,6 +1,6 @@
 package com.alura.forum.services;
 
-import com.alura.forum.infra.errors.ValidacionDeIntegridad;
+import com.alura.forum.infra.errors.IntegrityValidations;
 import com.alura.forum.models.course.Course;
 import com.alura.forum.models.post.*;
 import com.alura.forum.models.response.DataResponseBody;
@@ -35,10 +35,10 @@ public class PostService {
 
     public ResponseEntity<DataResponsePost> publish(DataPost dataPost, UriComponentsBuilder uriComponentsBuilder){
         if (!userRepository.findById(dataPost.user_id()).isPresent()){
-            throw new ValidacionDeIntegridad(USER_ID_NOT_FOUND);
+            throw new IntegrityValidations(USER_ID_NOT_FOUND);
         }
         if (!courseRepository.findById(dataPost.course_id()).isPresent()){
-            throw new ValidacionDeIntegridad(COURSE_ID_NOT_FOUND);
+            throw new IntegrityValidations(COURSE_ID_NOT_FOUND);
         }
 
         User user = userRepository.findById(dataPost.user_id()).get();
