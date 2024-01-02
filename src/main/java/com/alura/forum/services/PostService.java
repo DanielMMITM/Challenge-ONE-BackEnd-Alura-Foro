@@ -1,5 +1,9 @@
 package com.alura.forum.services;
 
+import static com.alura.forum.constants.Constants.USER_ID_NOT_FOUND;
+import static com.alura.forum.constants.Constants.COURSE_ID_NOT_FOUND;
+import static com.alura.forum.constants.Constants.POST_DELETED_SUCCESSFULLY;
+
 import com.alura.forum.infra.errors.IntegrityValidations;
 import com.alura.forum.models.course.Course;
 import com.alura.forum.models.post.*;
@@ -14,16 +18,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.net.URI;
 import java.util.stream.Collectors;
 
 @Service
 public class PostService {
 
-    public static final String USER_ID_NOT_FOUND = "user id not found";
-    public static final String COURSE_ID_NOT_FOUND = "course id not found";
-    public static final String POST_DELETED_SUCCESSFULLY = "Post deleted successfully!";
     @Autowired
     private PostRepository postRepository;
 
@@ -65,10 +65,10 @@ public class PostService {
         return postRepository.findAll(paginacion).map(DataListPosts::new);
     }
 
-    public DataResponsePost viewPost(Long id){
+    public DataResponsePost viewPost(Long id) {
         Post post = postRepository.getReferenceById(id);
 
-       DataResponsePost dataResponsePost = DataResponsePost.builder()
+        DataResponsePost dataResponsePost = DataResponsePost.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .text(post.getText())

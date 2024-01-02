@@ -1,5 +1,9 @@
 package com.alura.forum.services;
 
+import static com.alura.forum.constants.Constants.USER_ID_NOT_FOUND;
+import static com.alura.forum.constants.Constants.POST_ID_NOT_FOUND;
+import static com.alura.forum.constants.Constants.DELETED_SUCCESSFULLY;
+
 import com.alura.forum.infra.errors.IntegrityValidations;
 import com.alura.forum.models.post.Post;
 import com.alura.forum.models.response.DataResponse;
@@ -15,9 +19,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ResponseService {
-    public static final String POST_ID_NOT_FOUND = "post id not found";
-    public static final String USER_ID_NOT_FOUND = "user id not found";
-    public static final String DELETED_SUCCESSFULLY = "Response deleted successfully!";
     @Autowired
     private ResponseRepository responseRepository;
 

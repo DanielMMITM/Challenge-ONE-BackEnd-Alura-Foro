@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 @Service
 public class AuthService{
 
@@ -29,9 +28,7 @@ public class AuthService{
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dataLogInUser.username(), dataLogInUser.password()));
         UserDetails user = userRepository.findByUsername(dataLogInUser.username()).orElseThrow();
         String token = tokenService.getToken(user);
-        return AuthResponse.builder()
-                .token(token)
-                .build();
+        return new AuthResponse(token);
     }
 
     public AuthResponse signUp(DataSignUpUser dataSignUpUser) {
@@ -42,9 +39,6 @@ public class AuthService{
                 .build();
 
         userRepository.save(user);
-
-        return AuthResponse.builder()
-                .token(tokenService.getToken(user))
-                .build();
+        return new AuthResponse(tokenService.getToken(user));
     }
 }
