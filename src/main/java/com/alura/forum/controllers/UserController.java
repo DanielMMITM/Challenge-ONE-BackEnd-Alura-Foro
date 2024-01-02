@@ -26,7 +26,7 @@ public class UserController {
             }
     )
     public ResponseEntity<UserInfo> userDetails(@PathVariable Long id){
-        return new ResponseEntity(userService.userDetails(id), HttpStatus.OK);
+        return ResponseEntity.ok(userService.userDetails(id));
     }
 
     @DeleteMapping("/{id}")
