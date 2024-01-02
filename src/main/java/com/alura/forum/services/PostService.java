@@ -58,8 +58,8 @@ public class PostService {
         return ResponseEntity.created(url).body(dataResponsePost);
     }
 
-    public Page<DataListPosts> listPosts(Pageable paginacion){
-        return postRepository.findAll(paginacion).map(DataListPosts::new);
+    public Page<DataListPosts> listPosts(Pageable pagination){
+        return postRepository.findAll(pagination).map(DataListPosts::new);
     }
 
     public DataResponsePost viewPost(Long id) {

@@ -1,6 +1,9 @@
 package com.alura.forum.controllers;
 
-import com.alura.forum.models.post.*;
+import com.alura.forum.models.post.DataListPosts;
+import com.alura.forum.models.post.DataUpdatePost;
+import com.alura.forum.models.post.DataResponsePost;
+import com.alura.forum.models.post.DataPost;
 import com.alura.forum.services.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -46,8 +49,8 @@ public class PostController {
                     @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.", responseCode = "403")
             }
     )
-    public ResponseEntity<Page<DataListPosts>> listPosts(@PageableDefault(size = 2) Pageable paginacion){
-        return ResponseEntity.ok(postService.listPosts(paginacion));
+    public ResponseEntity<Page<DataListPosts>> listPosts(@PageableDefault(size = 2) Pageable pagination){
+        return ResponseEntity.ok(postService.listPosts(pagination));
     }
 
     @GetMapping("/{id}")
