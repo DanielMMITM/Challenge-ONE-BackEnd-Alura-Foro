@@ -22,8 +22,8 @@ public class AuthService{
     private AuthenticationManager authenticationManager;
 
     public AuthResponse login(DataLogInUser dataLogInUser) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dataLogInUser.name(), dataLogInUser.password()));
-        UserDetails user = userRepository.findByUsername(dataLogInUser.name()).orElseThrow();
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dataLogInUser.username(), dataLogInUser.password()));
+        UserDetails user = userRepository.findByUsername(dataLogInUser.username()).orElseThrow();
         String token = tokenService.getToken(user);
         return AuthResponse.builder()
                 .token(token)

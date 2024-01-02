@@ -1,7 +1,7 @@
 package com.alura.forum.models.user;
 
 public record DataLogInUser(
-        String name,
+        String username,
 
         String password){
 }

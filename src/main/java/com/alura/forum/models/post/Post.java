@@ -40,7 +40,7 @@ public class Post implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User author;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
@@ -57,7 +57,7 @@ public class Post implements Serializable {
         this.title = dataPost.title();
         this.text = dataPost.text();
         this.statusPost = StatusPost.NOT_RESPONDED;
-        this.author = user;
+        this.user = user;
         this.course = course;
         this.postDate = LocalDateTime.now();
 

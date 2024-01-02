@@ -32,7 +32,7 @@ public class AuthController {
 
 //    @PostMapping(value = "login")
 //    public ResponseEntity authenticateUser(@RequestBody @Valid DataLogInUser dataLogInUser){
-//        Authentication authToken = new UsernamePasswordAuthenticationToken(dataLogInUser.name(), dataLogInUser.password());
+//        Authentication authToken = new UsernamePasswordAuthenticationToken(dataLogInUser.username(), dataLogInUser.password());
 //        Authentication authUser = authenticationManager.authenticate(authToken);
 //        var JWTtoken = tokenService.generarToken((User) usuarioAutenticado.getPrincipal());
 //        return ResponseEntity.ok(new DatosJWTToken(JWTtoken));

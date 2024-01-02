@@ -25,7 +25,7 @@ public record DataListPosts(
         LocalDateTime post_date){
 
     public DataListPosts(Post post){
-        this(post.getId(), post.getTitle(), post.getText(), post.getStatusPost().toString(), post.getAuthor().getId(), post.getCourse().getId(), post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()), post.getPostDate());
+        this(post.getId(), post.getTitle(), post.getText(), post.getStatusPost().toString(), post.getUser().getId(), post.getCourse().getId(), post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()), post.getPostDate());
     }
 
 }

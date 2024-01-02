@@ -24,7 +24,7 @@ public class User implements UserDetails {
     private String password;
 
     public User (DataSignUpUser dataSignUpUser){
-        this.username = dataSignUpUser.name();
+        this.username = dataSignUpUser.username();
         this.email = dataSignUpUser.email();
         this.password = dataSignUpUser.password();
     }
