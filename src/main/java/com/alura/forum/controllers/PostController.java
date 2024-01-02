@@ -30,7 +30,7 @@ public class PostController {
     @Transactional
     @Operation(summary = "Create a new post in the database",
             description = "It requires a title, text, course id and the user id that is the one that its posting it to successfully insert the post in the database.",
-            tags = {"user->posts"},
+            tags = {"User->Posts"},
             method = "POST",
             responses = {@ApiResponse(description = "Post created", responseCode = "201"), @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
                     @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.", responseCode = "403")
@@ -43,7 +43,7 @@ public class PostController {
     @GetMapping
     @Operation(summary = "Retrieve all the posts from the database",
             description = "This endpoint retrieves all the posts from the database to show them to the user. If required send the page, size or sort by the URL.",
-            tags = {"user->posts"},
+            tags = {"User->Posts"},
             method = "GET",
             responses = {@ApiResponse(description = "Posts retrieved", responseCode = "200"),
                     @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.", responseCode = "403")
@@ -56,7 +56,7 @@ public class PostController {
     @GetMapping("/{id}")
     @Operation(summary = "Retrieve a specific post from the database",
             description = "This endpoint retrieves the post selected by the user and shows it with all the answers. The post id is send through the URL.",
-            tags = {"user->posts"},
+            tags = {"User->Posts"},
             method = "GET",
             responses = {@ApiResponse(description = "Post retrieved", responseCode = "200"),
                     @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.", responseCode = "403")
@@ -71,7 +71,7 @@ public class PostController {
     @Transactional
     @Operation(summary = "Delete a specific post from the database",
             description = "This endpoint delete the post selected by the user. The post id is send through the URL.",
-            tags = {"user->posts"},
+            tags = {"User->Posts"},
             method = "DELETE",
             responses = {@ApiResponse(description = "Post deleted", responseCode = "200"),
                     @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.", responseCode = "403")
@@ -85,9 +85,9 @@ public class PostController {
     @Transactional
     @Operation(summary = "Edit a specific post from the database",
             description = "This endpoint update the post selected by the user. The body requires its id, title, text, status and course_id.",
-            tags = {"user->posts"},
+            tags = {"User->Posts"},
             method = "PUT",
-            responses = {@ApiResponse(description = "Post updated", responseCode = "200"),
+            responses = {@ApiResponse(description = "Post updated", responseCode = "200"), @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
                     @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.", responseCode = "403")
             }
     )
