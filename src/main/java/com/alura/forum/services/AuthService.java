@@ -5,6 +5,7 @@ import com.alura.forum.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,6 +20,9 @@ public class AuthService{
     private TokenService tokenService;
 
     @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     public AuthResponse login(DataLogInUser dataLogInUser) {
@@ -31,8 +35,14 @@ public class AuthService{
     }
 
     public AuthResponse signUp(DataSignUpUser dataSignUpUser) {
-        User user = new User(dataSignUpUser);
+        User user = User.builder()
+                .username(dataSignUpUser.username())
+                .email(dataSignUpUser.email())
+                .password(passwordEncoder.encode(dataSignUpUser.password()))
+                .build();
+
         userRepository.save(user);
+
         return AuthResponse.builder()
                 .token(tokenService.getToken(user))
                 .build();

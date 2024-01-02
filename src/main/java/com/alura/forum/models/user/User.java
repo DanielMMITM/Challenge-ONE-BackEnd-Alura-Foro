@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 
+@Builder
 @Table(name = "users")
 @Entity(name = "User")
 @Getter
@@ -37,6 +38,11 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return this.username;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
     }
 
     @Override
