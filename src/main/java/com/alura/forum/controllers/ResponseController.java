@@ -131,16 +131,16 @@ public class ResponseController {
                                 "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
                         schema = @Schema(type = "String")),
                 @Parameter(name = "Id",
+                        in = ParameterIn.PATH,
                         description = "The id of the answer to delete",
                         required = true,
                         example = "1",
                         schema = @Schema(type = "Long")
-                ),
+                )
             },
             method = "DELETE",
             responses = {@ApiResponse(description = "Answer deleted. Returns a string reporting that the answer was succesfully deleted",
                     responseCode = "200"),
-                    @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
                     @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
                             responseCode = "403")
             }
