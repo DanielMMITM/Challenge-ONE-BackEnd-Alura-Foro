@@ -43,13 +43,13 @@ public class ResponseController {
                         example = "You should watch a tutorial",
                         schema = @Schema(type = "String")
                 ),
-                @Parameter(name = "Post_id",
+                @Parameter(name = "Post Id",
                         description = "The id of the post that is being answered",
                         required = true,
                         example = "1",
                         schema = @Schema(type = "Long")
                 ),
-                @Parameter(name = "User_id",
+                @Parameter(name = "User Id",
                         description = "The id of the user that is answering",
                         required = true,
                         example = "1",

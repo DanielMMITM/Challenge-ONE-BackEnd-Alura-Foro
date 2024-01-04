@@ -37,7 +37,7 @@ public class UserController {
                                 "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
                                 "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
                         schema = @Schema(type = "String")),
-                @Parameter(name = "Id of the user",
+                @Parameter(name = "Id",
                         description = "Id of the user to show its information",
                         required = true,
                         example = "1",
@@ -67,7 +67,7 @@ public class UserController {
                                 "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
                                 "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
                         schema = @Schema(type = "String")),
-                @Parameter(name = "Id of the user",
+                @Parameter(name = "Id",
                         description = "Id of the user to delete",
                         required = true,
                         example = "1",
