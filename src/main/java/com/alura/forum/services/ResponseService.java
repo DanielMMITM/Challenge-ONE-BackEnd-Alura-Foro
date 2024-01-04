@@ -77,4 +77,18 @@ public class ResponseService {
         responseRepository.delete(response);
         return RESPONSE_DELETED_SUCCESSFULLY;
     }
+
+    public DataResponseBody checkSolution(Long id) {
+        Response response = responseRepository.getReferenceById(id);
+        response.setSolution(!response.getSolution());
+        responseRepository.save(response);
+        return DataResponseBody.builder()
+                .id(response.getId())
+                .text(response.getText())
+                .solution(response.getSolution())
+                .postId(response.getPost().getId())
+                .userId(response.getUser().getId())
+                .responseDate(response.getResponseDate())
+                .build();
+    }
 }

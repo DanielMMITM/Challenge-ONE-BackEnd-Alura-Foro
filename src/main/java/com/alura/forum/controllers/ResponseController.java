@@ -123,4 +123,10 @@ public class ResponseController {
     public ResponseEntity deleteResponse(@PathVariable Long id){
         return ResponseEntity.ok(responseService.deletePost(id));
     }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<DataResponseBody> checkSolution(@PathVariable Long id){
+        return ResponseEntity.ok(responseService.checkSolution(id));
+    }
 }

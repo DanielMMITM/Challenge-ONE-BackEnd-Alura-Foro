@@ -52,4 +52,8 @@ public class Response{
     public void setText(String text) {
         this.text = text;
     }
+
+    public void setSolution(Boolean mark) {
+        this.solution = mark;
+    }
 }
