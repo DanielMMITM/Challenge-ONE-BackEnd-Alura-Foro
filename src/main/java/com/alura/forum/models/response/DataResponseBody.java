@@ -1,7 +1,6 @@
 package com.alura.forum.models.response;
 
 import lombok.Builder;
-
 import java.time.LocalDateTime;
 
 @Builder
