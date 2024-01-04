@@ -3,6 +3,9 @@ package com.alura.forum.controllers;
 import com.alura.forum.models.user.UserInfo;
 import com.alura.forum.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
@@ -21,9 +24,25 @@ public class UserController {
     @Operation(summary = "Retrieve the information of the current user from the database",
             description = "The user id is send through the URL and then it shows the user information.",
             tags = {"User"},
+            parameters = {
+                @Parameter(name = "Auth Key",
+                        description = "Bearer key to get access to the endpoint",
+                        in = ParameterIn.HEADER,
+                        required = true,
+                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
+                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
+                        schema = @Schema(type = "String")),
+                @Parameter(name = "Id of the user",
+                        description = "Id of the user to show its information",
+                        required = true,
+                        example = "1",
+                        schema = @Schema(type = "Long")),
+            },
             method = "GET",
             responses = {@ApiResponse(description = "User information retrieved", responseCode = "200"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.", responseCode = "403")
+                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
+                            responseCode = "403")
             }
     )
     public ResponseEntity<UserInfo> userDetails(@PathVariable Long id){
@@ -35,9 +54,26 @@ public class UserController {
     @Operation(summary = "Delete the user from the database",
             description = "The user id is send through the URL.",
             tags = {"User"},
+            parameters = {
+                @Parameter(name = "Auth Key",
+                        description = "Bearer key to get access to the endpoint",
+                        in = ParameterIn.HEADER,
+                        required = true,
+                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
+                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
+                        schema = @Schema(type = "String")),
+                @Parameter(name = "Id of the user",
+                        description = "Id of the user to delete",
+                        required = true,
+                        example = "1",
+                        schema = @Schema(type = "Long")),
+            },
             method = "DELETE",
-            responses = {@ApiResponse(description = "User deleted. It returns a string value to report that it was successfully deleted", responseCode = "200"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.", responseCode = "403")
+            responses = {@ApiResponse(description = "User deleted. It returns a string value to report that it was successfully deleted",
+                    responseCode = "200"),
+                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
+                            responseCode = "403")
             }
     )
     public ResponseEntity deleteUser(@PathVariable Long id){
