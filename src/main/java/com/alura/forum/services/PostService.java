@@ -65,18 +65,16 @@ public class PostService {
     public DataResponsePost viewPost(Long id) {
         Post post = postRepository.getReferenceById(id);
 
-        DataResponsePost dataResponsePost = DataResponsePost.builder()
-                .id(post.getId())
-                .title(post.getTitle())
-                .text(post.getText())
-                .statusPost(post.getStatusPost().toString())
-                .userId(post.getUser().getId())
-                .courseId(post.getCourse().getId())
-                .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
-                .postDate(post.getPostDate())
-                .build();
-
-       return dataResponsePost;
+       return DataResponsePost.builder()
+               .id(post.getId())
+               .title(post.getTitle())
+               .text(post.getText())
+               .statusPost(post.getStatusPost().toString())
+               .userId(post.getUser().getId())
+               .courseId(post.getCourse().getId())
+               .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
+               .postDate(post.getPostDate())
+               .build();
     }
 
     public String deletePost(Long id){
@@ -98,7 +96,7 @@ public class PostService {
         }
         postRepository.save(post);
 
-        DataResponsePost dataResponsePost = DataResponsePost.builder()
+        return DataResponsePost.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .text(post.getText())
@@ -108,7 +106,5 @@ public class PostService {
                 .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
                 .postDate(post.getPostDate())
                 .build();
-
-        return dataResponsePost;
     }
 }

@@ -42,7 +42,7 @@ public class ResponseService {
         post.addAnswer(response);
         postRepository.save(post);
 
-        DataResponseBody dataResponseBody = DataResponseBody.builder()
+        return DataResponseBody.builder()
                 .id(response.getId())
                 .text(response.getText())
                 .solution(response.getSolution())
@@ -50,9 +50,6 @@ public class ResponseService {
                 .userId(response.getUser().getId())
                 .responseDate(response.getResponseDate())
                 .build();
-
-        return dataResponseBody;
-
     }
 
     public DataResponseBody updateResponse(DataUpdateResponse dataUpdateResponse) {
@@ -60,7 +57,7 @@ public class ResponseService {
         response.setText(dataUpdateResponse.text());
         responseRepository.save(response);
 
-        DataResponseBody dataResponseBody = DataResponseBody.builder()
+        return DataResponseBody.builder()
                 .id(response.getId())
                 .text(response.getText())
                 .solution(response.getSolution())
@@ -68,8 +65,6 @@ public class ResponseService {
                 .userId(response.getUser().getId())
                 .responseDate(response.getResponseDate())
                 .build();
-
-        return dataResponseBody;
     }
 
     public String deletePost(Long id) {
