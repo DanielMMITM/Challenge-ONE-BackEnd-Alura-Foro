@@ -10,7 +10,7 @@ public record DataResponseBody(
         Boolean solution,
         Long postId,
         Long userId,
-        LocalDateTime response_date)
+        LocalDateTime responseDate)
 {
     public DataResponseBody(Response response){
         this(response.getId(),

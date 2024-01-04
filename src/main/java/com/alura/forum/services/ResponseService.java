@@ -29,14 +29,14 @@ public class ResponseService {
     private PostService postService;
 
     public DataResponseBody addResponse(DataResponse dataResponse){
-        if (!postRepository.findById(dataResponse.post_id()).isPresent()){
+        if (!postRepository.findById(dataResponse.postId()).isPresent()){
             throw new IntegrityValidations(POST_ID_NOT_FOUND);
         }
-        if (!userRepository.findById(dataResponse.user_id()).isPresent()){
+        if (!userRepository.findById(dataResponse.userId()).isPresent()){
             throw new IntegrityValidations(USER_ID_NOT_FOUND);
         }
-        Post post = postRepository.findById(dataResponse.post_id()).get();
-        User user = userRepository.findById(dataResponse.user_id()).get();
+        Post post = postRepository.findById(dataResponse.postId()).get();
+        User user = userRepository.findById(dataResponse.userId()).get();
 
         Response response = responseRepository.save(new Response(dataResponse, post, user));
         post.addAnswer(response);
@@ -48,7 +48,7 @@ public class ResponseService {
                 .solution(response.getSolution())
                 .postId(response.getPost().getId())
                 .userId(response.getUser().getId())
-                .response_date(response.getResponseDate())
+                .responseDate(response.getResponseDate())
                 .build();
 
         return dataResponseBody;
@@ -66,7 +66,7 @@ public class ResponseService {
                 .solution(response.getSolution())
                 .postId(response.getPost().getId())
                 .userId(response.getUser().getId())
-                .response_date(response.getResponseDate())
+                .responseDate(response.getResponseDate())
                 .build();
 
         return dataResponseBody;

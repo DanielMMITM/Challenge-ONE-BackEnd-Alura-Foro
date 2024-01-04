@@ -11,11 +11,11 @@ public record DataListPosts(
         Long id,
         String title,
         String text,
-        String status_post,
-        Long user_id,
-        Long course_id,
+        String statusPost,
+        Long userId,
+        Long courseId,
         List<DataResponseBody> answers,
-        LocalDateTime post_date)
+        LocalDateTime postDate)
 {
     public DataListPosts(Post post){
         this(post.getId(),

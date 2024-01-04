@@ -186,7 +186,7 @@ public class PostController {
     @PutMapping
     @Transactional
     @Operation(summary = "Edit a specific post from the database",
-            description = "This endpoint update the post selected by the user. The body requires its id, title, text, status and course_id.",
+            description = "This endpoint update the post selected by the user. The body requires its id, title, text, status and courseId.",
             parameters = {
                 @Parameter(name = "Auth Key",
                         description = "Bearer key to get access to the endpoint",

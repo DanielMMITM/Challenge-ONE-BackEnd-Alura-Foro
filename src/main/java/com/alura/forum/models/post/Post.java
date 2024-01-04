@@ -42,22 +42,22 @@ public class Post{
     private String text;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status_post")
+    @Column(name = "statusPost")
     private StatusPost statusPost;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "courseId")
     private Course course;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Response> answers = new ArrayList<>();
 
-    @Column(name = "post_date")
+    @Column(name = "postDate")
     private LocalDateTime postDate;
 
     public Post(DataPost dataPost, User user, Course course){

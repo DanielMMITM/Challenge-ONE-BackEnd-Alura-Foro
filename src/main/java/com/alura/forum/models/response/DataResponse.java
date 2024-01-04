@@ -7,7 +7,7 @@ public record DataResponse(
         @NotBlank
         String text,
         @NotNull
-        Long post_id,
+        Long postId,
         @NotNull
-        Long user_id){
+        Long userId){
 }

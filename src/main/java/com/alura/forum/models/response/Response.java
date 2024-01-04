@@ -31,14 +31,14 @@ public class Response{
     private Boolean solution;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "postId")
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
-    @Column(name = "response_date")
+    @Column(name = "responseDate")
     private LocalDateTime responseDate;
 
     public Response(DataResponse dataResponse, Post post, User user){

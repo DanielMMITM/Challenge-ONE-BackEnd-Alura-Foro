@@ -32,14 +32,14 @@ public class PostService {
     private CourseRepository courseRepository;
 
     public ResponseEntity<DataResponsePost> publish(DataPost dataPost, UriComponentsBuilder uriComponentsBuilder){
-        if (!userRepository.findById(dataPost.user_id()).isPresent()){
+        if (!userRepository.findById(dataPost.userId()).isPresent()){
             throw new IntegrityValidations(USER_ID_NOT_FOUND);
         }
-        if (!courseRepository.findById(dataPost.course_id()).isPresent()){
+        if (!courseRepository.findById(dataPost.courseId()).isPresent()){
             throw new IntegrityValidations(COURSE_ID_NOT_FOUND);
         }
-        User user = userRepository.findById(dataPost.user_id()).get();
-        Course course = courseRepository.findById(dataPost.course_id()).get();
+        User user = userRepository.findById(dataPost.userId()).get();
+        Course course = courseRepository.findById(dataPost.courseId()).get();
 
         Post post = postRepository.save(new Post(dataPost, user, course));
 
@@ -47,11 +47,11 @@ public class PostService {
                 .id(post.getId())
                 .title(post.getTitle())
                 .text(post.getText())
-                .status_post(post.getStatusPost().toString())
-                .user_id(post.getUser().getId())
-                .course_id(post.getCourse().getId())
+                .statusPost(post.getStatusPost().toString())
+                .userId(post.getUser().getId())
+                .courseId(post.getCourse().getId())
                 .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
-                .post_date(post.getPostDate())
+                .postDate(post.getPostDate())
                 .build();
 
         URI url = uriComponentsBuilder.path(POST_PATH).buildAndExpand(post.getId()).toUri();
@@ -69,11 +69,11 @@ public class PostService {
                 .id(post.getId())
                 .title(post.getTitle())
                 .text(post.getText())
-                .status_post(post.getStatusPost().toString())
-                .user_id(post.getUser().getId())
-                .course_id(post.getCourse().getId())
+                .statusPost(post.getStatusPost().toString())
+                .userId(post.getUser().getId())
+                .courseId(post.getCourse().getId())
                 .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
-                .post_date(post.getPostDate())
+                .postDate(post.getPostDate())
                 .build();
 
        return dataResponsePost;
@@ -87,14 +87,14 @@ public class PostService {
 
     public DataResponsePost updatePost(DataUpdatePost dataUpdatePost) {
         Post post = postRepository.getReferenceById(dataUpdatePost.id());
-        Course course = courseRepository.findById(dataUpdatePost.course_id()).get();
+        Course course = courseRepository.findById(dataUpdatePost.courseId()).get();
 
         post.setTitle(dataUpdatePost.title());
         post.setText(dataUpdatePost.text());
         post.setCourse(course);
 
-        if(dataUpdatePost.status_post() != null) {
-            post.setStatusPost(dataUpdatePost.status_post());
+        if(dataUpdatePost.statusPost() != null) {
+            post.setStatusPost(dataUpdatePost.statusPost());
         }
         postRepository.save(post);
 
@@ -102,11 +102,11 @@ public class PostService {
                 .id(post.getId())
                 .title(post.getTitle())
                 .text(post.getText())
-                .status_post(post.getStatusPost().toString())
-                .user_id(post.getUser().getId())
-                .course_id(post.getCourse().getId())
+                .statusPost(post.getStatusPost().toString())
+                .userId(post.getUser().getId())
+                .courseId(post.getCourse().getId())
                 .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
-                .post_date(post.getPostDate())
+                .postDate(post.getPostDate())
                 .build();
 
         return dataResponsePost;

@@ -10,7 +10,7 @@ public record DataUpdatePost(
         String title,
         @NotBlank
         String text,
-        StatusPost status_post,
+        StatusPost statusPost,
         @NotNull
-        Long course_id){
+        Long courseId){
 }

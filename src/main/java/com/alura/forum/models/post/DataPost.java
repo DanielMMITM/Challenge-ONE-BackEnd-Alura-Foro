@@ -9,7 +9,7 @@ public record DataPost(
         @NotBlank
         String text,
         @NotNull
-        Long user_id,
+        Long userId,
         @NotNull
-        Long course_id){
+        Long courseId){
 }
