@@ -5,6 +5,8 @@ import com.alura.forum.models.user.DataLogInUser;
 import com.alura.forum.models.user.DataSignUpUser;
 import com.alura.forum.services.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -28,9 +30,22 @@ public class AuthController {
     @Operation(summary = "Perform a login action to get access to the private endpoints",
             description = "The credentials of the user are send through the body.",
             tags = {"User->Authentication"},
+            parameters = {
+                @Parameter(name = "username",
+                        required = true,
+                        example = "user123",
+                        schema = @Schema(type = "String")
+                ),
+                @Parameter(name = "password",
+                        required = true,
+                        example = "123456",
+                        schema = @Schema(type = "String")
+                ),
+            },
             method = "POST",
             responses = {@ApiResponse(description = "Credentials matched", responseCode = "200"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.", responseCode = "403")
+                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
+                            responseCode = "403")
             }
     )
     public ResponseEntity<AuthResponse> authenticateUser(@RequestBody @Valid DataLogInUser dataLogInUser){
@@ -42,9 +57,28 @@ public class AuthController {
     @Operation(summary = "Perform a register action. A new user is created in the database",
             description = "The user info are send through the body so a insert query is performed into the database.",
             tags = {"User"},
+            parameters = {
+                @Parameter(name = "username",
+                        required = true,
+                        example = "user123",
+                        schema = @Schema(type = "String")
+                ),
+                @Parameter(name = "email",
+                        required = true,
+                        example = "user123@gmail.com",
+                        schema = @Schema(type = "String")
+                ),
+                @Parameter(name = "password",
+                        required = true,
+                        example = "123456",
+                        schema = @Schema(type = "String")
+                ),
+            },
             method = "POST",
-            responses = {@ApiResponse(description = "User Created", responseCode = "200"), @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.", responseCode = "403")
+            responses = {@ApiResponse(description = "User Created", responseCode = "200"),
+                    @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
+                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
+                            responseCode = "403")
             }
     )
     public ResponseEntity<AuthResponse> signUp(@Valid @RequestBody DataSignUpUser dataSignUpUser) {
