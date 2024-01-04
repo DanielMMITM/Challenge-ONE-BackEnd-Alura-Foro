@@ -6,6 +6,7 @@ import com.alura.forum.models.response.DataUpdateResponse;
 import com.alura.forum.services.ResponseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -37,6 +38,14 @@ public class ResponseController {
                     "and attached to the post.",
             tags = {"User->Response/Comment"},
             parameters = {
+                @Parameter(name = "Auth Key",
+                        description = "Bearer key to get access to the endpoint",
+                        in = ParameterIn.HEADER,
+                        required = true,
+                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
+                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
+                        schema = @Schema(type = "String")),
                 @Parameter(name = "Text",
                         description = "The text/body of the answer",
                         required = true,
@@ -75,6 +84,14 @@ public class ResponseController {
                     "then the answer is updated in the database.",
             tags = {"User->Response/Comment"},
             parameters = {
+                @Parameter(name = "Auth Key",
+                        description = "Bearer key to get access to the endpoint",
+                        in = ParameterIn.HEADER,
+                        required = true,
+                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
+                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
+                        schema = @Schema(type = "String")),
                 @Parameter(name = "Id",
                         description = "The id of the answer to update",
                         required = true,
@@ -105,12 +122,20 @@ public class ResponseController {
             description = "The id of the response is send through the URL and then the service perform a delete action inside the database.",
             tags = {"User->Response/Comment"},
             parameters = {
-                    @Parameter(name = "Id",
-                            description = "The id of the answer to delete",
-                            required = true,
-                            example = "1",
-                            schema = @Schema(type = "Long")
-                    ),
+                @Parameter(name = "Auth Key",
+                        description = "Bearer key to get access to the endpoint",
+                        in = ParameterIn.HEADER,
+                        required = true,
+                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
+                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
+                        schema = @Schema(type = "String")),
+                @Parameter(name = "Id",
+                        description = "The id of the answer to delete",
+                        required = true,
+                        example = "1",
+                        schema = @Schema(type = "Long")
+                ),
             },
             method = "DELETE",
             responses = {@ApiResponse(description = "Answer deleted. Returns a string reporting that the answer was succesfully deleted",
@@ -126,6 +151,32 @@ public class ResponseController {
 
     @PutMapping("/{id}")
     @Transactional
+    @Operation(summary = "Mark a response as a solution or unmark it",
+            description = "The user sends the id of the response through the URL and then it is updated on the database.",
+            tags = {"User->Response/Comment"},
+            parameters = {
+                @Parameter(name = "Auth Key",
+                        description = "Bearer key to get access to the endpoint",
+                        in = ParameterIn.HEADER,
+                        required = true,
+                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
+                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
+                        schema = @Schema(type = "String")),
+                @Parameter(name = "Id",
+                        in = ParameterIn.PATH,
+                        description = "The id of the answer to mark it as a solution",
+                        required = true,
+                        example = "1",
+                        schema = @Schema(type = "Long")
+                )
+            },
+            method = "PUT",
+            responses = {@ApiResponse(description = "Answer updated", responseCode = "200"),
+                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
+                            responseCode = "403")
+            }
+    )
     public ResponseEntity<DataResponseBody> checkSolution(@PathVariable Long id){
         return ResponseEntity.ok(responseService.checkSolution(id));
     }
