@@ -42,14 +42,6 @@ public class PostController {
             description = "It requires a title, text, course id and the user id that is the one that its posting it to" +
                     "successfully insert the post in the database.",
             parameters = {
-                @Parameter(name = "Auth Key",
-                        description = "Bearer key to get access to the endpoint",
-                        in = ParameterIn.HEADER,
-                        required = true,
-                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
-                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
-                        schema = @Schema(type = "String")),
                 @Parameter(name = "Title",
                     description = "Title of the post",
                     required = true,
@@ -71,7 +63,7 @@ public class PostController {
                         example = "1",
                         schema = @Schema(type = "Long")),
             },
-            tags = {"User->Posts"},
+            tags = {"Posts"},
             method = "POST",
             responses = {@ApiResponse(description = "Post created", responseCode = "201"),
                     @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
@@ -87,16 +79,8 @@ public class PostController {
     @Operation(summary = "Retrieve all the posts from the database",
             description = "This endpoint retrieves all the posts from the database to show them to the user. " +
                     "If required send the page, size or sort by the URL.",
-            tags = {"User->Posts"},
+            tags = {"Posts"},
             parameters = {
-                @Parameter(name = "Auth Key",
-                        description = "Bearer key to get access to the endpoint",
-                        in = ParameterIn.HEADER,
-                        required = true,
-                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
-                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
-                        schema = @Schema(type = "String")),
                 @Parameter(name = "Page",
                         description = "Number of page to show",
                         example = "1",
@@ -125,14 +109,6 @@ public class PostController {
             description = "This endpoint retrieves the post selected by the user and shows it with all the answers." +
                     "The post id is send through the URL.",
             parameters = {
-                @Parameter(name = "Auth Key",
-                        description = "Bearer key to get access to the endpoint",
-                        in = ParameterIn.HEADER,
-                        required = true,
-                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
-                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
-                        schema = @Schema(type = "String")),
                 @Parameter(name = "Post Id",
                         in = ParameterIn.PATH,
                         description = "Id of the post to show",
@@ -140,7 +116,7 @@ public class PostController {
                         example = "1",
                         schema = @Schema(type = "Long")),
             },
-            tags = {"User->Posts"},
+            tags = {"Posts"},
             method = "GET",
             responses = {@ApiResponse(description = "Post retrieved", responseCode = "200"),
                     @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
@@ -157,14 +133,6 @@ public class PostController {
     @Operation(summary = "Delete a specific post from the database",
             description = "This endpoint delete the post selected by the user. The post id is send through the URL.",
             parameters = {
-                @Parameter(name = "Auth Key",
-                        description = "Bearer key to get access to the endpoint",
-                        in = ParameterIn.HEADER,
-                        required = true,
-                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
-                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
-                        schema = @Schema(type = "String")),
                 @Parameter(name = "Post id",
                         in = ParameterIn.PATH,
                         description = "Id of the post to delete",
@@ -172,7 +140,7 @@ public class PostController {
                         example = "1",
                         schema = @Schema(type = "Long")),
             },
-            tags = {"User->Posts"},
+            tags = {"Posts"},
             method = "DELETE",
             responses = {@ApiResponse(description = "Post deleted", responseCode = "200"),
                     @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
@@ -188,14 +156,6 @@ public class PostController {
     @Operation(summary = "Edit a specific post from the database",
             description = "This endpoint update the post selected by the user. The body requires its id, title, text, status and courseId.",
             parameters = {
-                @Parameter(name = "Auth Key",
-                        description = "Bearer key to get access to the endpoint",
-                        in = ParameterIn.HEADER,
-                        required = true,
-                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
-                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
-                        schema = @Schema(type = "String")),
                 @Parameter(name = "Post id",
                         description = "Id of the post that you want to edit",
                         required = true,
@@ -221,7 +181,7 @@ public class PostController {
                         example = "1",
                         schema = @Schema(type = "Long")),
             },
-            tags = {"User->Posts"},
+            tags = {"Posts"},
             method = "PUT",
             responses = {@ApiResponse(description = "Post updated", responseCode = "200"),
                     @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),

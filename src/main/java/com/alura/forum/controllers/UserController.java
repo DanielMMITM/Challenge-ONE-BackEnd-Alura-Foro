@@ -29,14 +29,6 @@ public class UserController {
             description = "The user id is send through the URL and then it shows the user information.",
             tags = {"User"},
             parameters = {
-                @Parameter(name = "Auth Key",
-                        description = "Bearer key to get access to the endpoint",
-                        in = ParameterIn.HEADER,
-                        required = true,
-                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
-                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
-                        schema = @Schema(type = "String")),
                 @Parameter(name = "Id",
                         description = "Id of the user to show its information",
                         required = true,
@@ -59,14 +51,6 @@ public class UserController {
             description = "The user id is send through the URL.",
             tags = {"User"},
             parameters = {
-                @Parameter(name = "Auth Key",
-                        description = "Bearer key to get access to the endpoint",
-                        in = ParameterIn.HEADER,
-                        required = true,
-                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
-                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
-                        schema = @Schema(type = "String")),
                 @Parameter(name = "Id",
                         description = "Id of the user to delete",
                         required = true,

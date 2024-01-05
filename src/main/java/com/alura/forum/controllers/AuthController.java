@@ -29,7 +29,7 @@ public class AuthController {
     @PostMapping(value = "login")
     @Operation(summary = "Perform a login action to get access to the private endpoints",
             description = "The credentials of the user are send through the body.",
-            tags = {"User->Authentication"},
+            tags = {"Authentication"},
             parameters = {
                 @Parameter(name = "username",
                         required = true,

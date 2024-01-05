@@ -36,16 +36,8 @@ public class ResponseController {
             description = "The user sends the information through the body and includes the post id that is watching and also its own id," +
                     "then the answer is inserted into the database" +
                     "and attached to the post.",
-            tags = {"User->Response/Comment"},
+            tags = {"Response"},
             parameters = {
-                @Parameter(name = "Auth Key",
-                        description = "Bearer key to get access to the endpoint",
-                        in = ParameterIn.HEADER,
-                        required = true,
-                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
-                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
-                        schema = @Schema(type = "String")),
                 @Parameter(name = "Text",
                         description = "The text/body of the answer",
                         required = true,
@@ -82,16 +74,8 @@ public class ResponseController {
     @Operation(summary = "Updates the answer/comment/response in the post",
             description = "The user sends the information through the body and includes the post id that is watching, the id of the comment and its own id," +
                     "then the answer is updated in the database.",
-            tags = {"User->Response/Comment"},
+            tags = {"Response/Comment"},
             parameters = {
-                @Parameter(name = "Auth Key",
-                        description = "Bearer key to get access to the endpoint",
-                        in = ParameterIn.HEADER,
-                        required = true,
-                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
-                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
-                        schema = @Schema(type = "String")),
                 @Parameter(name = "Id",
                         description = "The id of the answer to update",
                         required = true,
@@ -120,16 +104,8 @@ public class ResponseController {
     @Transactional
     @Operation(summary = "Deletes the answer/comment/response in the post",
             description = "The id of the response is send through the URL and then the service perform a delete action inside the database.",
-            tags = {"User->Response/Comment"},
+            tags = {"Response/Comment"},
             parameters = {
-                @Parameter(name = "Auth Key",
-                        description = "Bearer key to get access to the endpoint",
-                        in = ParameterIn.HEADER,
-                        required = true,
-                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
-                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
-                        schema = @Schema(type = "String")),
                 @Parameter(name = "Id",
                         in = ParameterIn.PATH,
                         description = "The id of the answer to delete",
@@ -153,16 +129,8 @@ public class ResponseController {
     @Transactional
     @Operation(summary = "Mark a response as a solution or unmark it",
             description = "The user sends the id of the response through the URL and then it is updated on the database.",
-            tags = {"User->Response/Comment"},
+            tags = {"Response/Comment"},
             parameters = {
-                @Parameter(name = "Auth Key",
-                        description = "Bearer key to get access to the endpoint",
-                        in = ParameterIn.HEADER,
-                        required = true,
-                        example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-                                "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0." +
-                                "UfFqFnX-9Y8FQj7sy0zNQQipBj8cNt3n3GMf_Rj6iHE",
-                        schema = @Schema(type = "String")),
                 @Parameter(name = "Id",
                         in = ParameterIn.PATH,
                         description = "The id of the answer to mark it as a solution",
