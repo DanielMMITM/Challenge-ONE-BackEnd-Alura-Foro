@@ -44,8 +44,8 @@ public class AuthController {
             },
             method = "POST",
             responses = {@ApiResponse(description = "Credentials matched", responseCode = "200"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity<AuthResponse> authenticateUser(@RequestBody @Valid DataLogInUser dataLogInUser){
@@ -77,8 +77,8 @@ public class AuthController {
             method = "POST",
             responses = {@ApiResponse(description = "User Created", responseCode = "200"),
                     @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity<AuthResponse> signUp(@Valid @RequestBody DataSignUpUser dataSignUpUser) {

@@ -37,8 +37,8 @@ public class UserController {
             },
             method = "GET",
             responses = {@ApiResponse(description = "User information retrieved", responseCode = "200"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity<UserInfo> userDetails(@PathVariable Long id){
@@ -60,8 +60,8 @@ public class UserController {
             method = "DELETE",
             responses = {@ApiResponse(description = "User deleted. It returns a string value to report that it was successfully deleted",
                     responseCode = "200"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity deleteUser(@PathVariable Long id){

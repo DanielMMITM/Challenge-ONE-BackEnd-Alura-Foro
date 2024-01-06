@@ -61,8 +61,8 @@ public class ResponseController {
             method = "POST",
             responses = {@ApiResponse(description = "Answer created", responseCode = "200"),
                     @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity<DataResponseBody> addResponse(@Valid @RequestBody DataResponse dataResponse){
@@ -92,8 +92,8 @@ public class ResponseController {
             method = "PUT",
             responses = {@ApiResponse(description = "Answer updated", responseCode = "200"),
                     @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity<DataResponseBody> updateResponse(@Valid @RequestBody DataUpdateResponse dataUpdateResponse){
@@ -117,8 +117,8 @@ public class ResponseController {
             method = "DELETE",
             responses = {@ApiResponse(description = "Answer deleted. Returns a string reporting that the answer was succesfully deleted",
                     responseCode = "200"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity deleteResponse(@PathVariable Long id){
@@ -141,8 +141,8 @@ public class ResponseController {
             },
             method = "PUT",
             responses = {@ApiResponse(description = "Answer updated", responseCode = "200"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity<DataResponseBody> checkSolution(@PathVariable Long id){

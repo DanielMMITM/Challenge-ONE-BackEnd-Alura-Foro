@@ -67,8 +67,8 @@ public class PostController {
             method = "POST",
             responses = {@ApiResponse(description = "Post created", responseCode = "201"),
                     @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity<DataResponsePost> publish(@Valid @RequestBody DataPost dataPost, UriComponentsBuilder uriComponentsBuilder){
@@ -96,8 +96,8 @@ public class PostController {
             },
             method = "GET",
             responses = {@ApiResponse(description = "Posts retrieved", responseCode = "200"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity<Page<DataListPosts>> listPosts(@PageableDefault(size = 2) Pageable pagination){
@@ -119,8 +119,8 @@ public class PostController {
             tags = {"Posts"},
             method = "GET",
             responses = {@ApiResponse(description = "Post retrieved", responseCode = "200"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity<DataResponsePost>viewPost(@PathVariable Long id){
@@ -143,8 +143,8 @@ public class PostController {
             tags = {"Posts"},
             method = "DELETE",
             responses = {@ApiResponse(description = "Post deleted", responseCode = "200"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity deletePost(@PathVariable Long id){
@@ -185,8 +185,8 @@ public class PostController {
             method = "PUT",
             responses = {@ApiResponse(description = "Post updated", responseCode = "200"),
                     @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
-                    @ApiResponse(description = "Forbidden. The user doesn't have the permissions to get a properly response.",
-                            responseCode = "403")
+                    @ApiResponse(description = "Unauthorized. You must authenticate",
+                            responseCode = "401")
             }
     )
     public ResponseEntity<DataResponsePost> updatePost(@RequestBody @Valid DataUpdatePost dataUpdatePost){
