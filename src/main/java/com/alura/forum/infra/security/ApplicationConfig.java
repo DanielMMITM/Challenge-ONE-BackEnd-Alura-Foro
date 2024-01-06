@@ -1,7 +1,8 @@
 package com.alura.forum.infra.security;
 
+import static com.alura.forum.constants.Constants.USER_NOT_FOUND;
+
 import com.alura.forum.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class ApplicationConfig {
 
-    public static final String USER_NOT_FOUND = "User not found";
     @Autowired
     private UserRepository userRepository;
 
@@ -41,7 +41,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailService() {
-        return name -> userRepository.findByUsername(name)
+        return username -> userRepository.findOneByUsername(username)
                 .orElseThrow(()->new UsernameNotFoundException(USER_NOT_FOUND));
     }
 }

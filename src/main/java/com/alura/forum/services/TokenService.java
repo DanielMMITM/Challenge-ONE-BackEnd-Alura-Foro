@@ -1,5 +1,8 @@
 package com.alura.forum.services;
 
+import static com.alura.forum.constants.Constants.OFFSET_ID;
+import static com.alura.forum.constants.Constants.HOURS;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -45,8 +48,8 @@ public class TokenService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String name= getUsernameFromToken(token);
-        return(name.equals(userDetails.getUsername())&& !isTokenExpired(token));
+        final String username = getUsernameFromToken(token);
+        return(username.equals(userDetails.getUsername())&& !isTokenExpired(token));
     }
 
     private Claims getAllClaims(String token){
@@ -72,6 +75,6 @@ public class TokenService {
     }
 
     private Instant createExpiryDate(){
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-05:00"));
+        return LocalDateTime.now().plusHours(HOURS).toInstant(ZoneOffset.of(OFFSET_ID));
     }
 }

@@ -14,5 +14,15 @@ public final class Constants {
     public static final String USER_DELETED_SUCCESSFULLY = "User deleted successfully!";
     public static final String BEARER = "Bearer ";
     public static final int BEGIN_INDEX = 7;
+    public static final String USER_NOT_FOUND = "User not found";
+    public static final String UNAUTHORIZED_MESSAGE = "Unauthorized";
+    public static final String OFFSET_ID = "-05:00";
+    public static final int HOURS = 2;
 
+    public static final String [] PUBLIC_URLS = {
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/auth/**"
+    };
 }

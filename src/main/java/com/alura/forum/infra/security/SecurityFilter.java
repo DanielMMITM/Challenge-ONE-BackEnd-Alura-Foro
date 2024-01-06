@@ -30,14 +30,14 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String token = getTokenFromRequest(request);
-        final String Username;
+        final String username;
         if(token == null){
             filterChain.doFilter(request, response);
         }
         else{
-            Username = tokenService.getUsernameFromToken(token);
-            if(Username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-                UserDetails userDetails = userDetailsService.loadUserByUsername(Username);
+            username = tokenService.getUsernameFromToken(token);
+            if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                 if(tokenService.isTokenValid(token, userDetails)){
                     UsernamePasswordAuthenticationToken authToken =
