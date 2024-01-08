@@ -2,6 +2,7 @@ package com.alura.forum.services;
 
 import static com.alura.forum.constants.Constants.USER_NOT_FOUND;
 
+import com.alura.forum.models.role.Role;
 import com.alura.forum.models.user.*;
 import com.alura.forum.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class AuthService{
                 .username(dataSignUpUser.username())
                 .email(dataSignUpUser.email())
                 .password(passwordEncoder.encode(dataSignUpUser.password()))
+                .role(Role.USER)
                 .build();
         userRepository.save(user);
         return new UserInfo(user.getId(), user.getEmail(), user.getUsername());

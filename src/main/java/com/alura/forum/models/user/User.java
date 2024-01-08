@@ -1,19 +1,17 @@
 package com.alura.forum.models.user;
 
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import com.alura.forum.models.role.Role;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.util.Collection;
-import java.util.Collections;
+
+import java.util.*;
 
 @Builder
 @Table(name = "users")
@@ -30,6 +28,9 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    Role role;
+
     public User (DataSignUpUser dataSignUpUser){
         this.username = dataSignUpUser.username();
         this.email = dataSignUpUser.email();
@@ -38,7 +39,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return List.of(new SimpleGrantedAuthority((role.name())));
     }
 
     @Override
