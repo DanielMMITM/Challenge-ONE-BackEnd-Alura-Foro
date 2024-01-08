@@ -1,11 +1,11 @@
 package com.alura.forum.services;
 
+import static com.alura.forum.constants.Constants.POST_ID_NOT_FOUND;
 import static com.alura.forum.constants.Constants.USER_ID_NOT_FOUND;
 import static com.alura.forum.constants.Constants.COURSE_ID_NOT_FOUND;
-import static com.alura.forum.constants.Constants.POST_DELETED_SUCCESSFULLY;
 import static com.alura.forum.constants.Constants.POST_PATH;
+import static com.alura.forum.constants.Constants.POST_DELETED_SUCCESSFULLY;
 
-import com.alura.forum.infra.errors.IntegrityValidations;
 import com.alura.forum.models.course.Course;
 import com.alura.forum.models.post.*;
 import com.alura.forum.models.response.DataResponseBody;
@@ -13,6 +13,7 @@ import com.alura.forum.models.user.User;
 import com.alura.forum.repositories.CourseRepository;
 import com.alura.forum.repositories.PostRepository;
 import com.alura.forum.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,10 +34,10 @@ public class PostService {
 
     public ResponseEntity<DataResponsePost> publish(DataPost dataPost, UriComponentsBuilder uriComponentsBuilder){
         if (!userRepository.findById(dataPost.userId()).isPresent()){
-            throw new IntegrityValidations(USER_ID_NOT_FOUND);
+            throw new EntityNotFoundException(USER_ID_NOT_FOUND);
         }
         if (!courseRepository.findById(dataPost.courseId()).isPresent()){
-            throw new IntegrityValidations(COURSE_ID_NOT_FOUND);
+            throw new EntityNotFoundException(COURSE_ID_NOT_FOUND);
         }
         User user = userRepository.findById(dataPost.userId()).get();
         Course course = courseRepository.findById(dataPost.courseId()).get();
@@ -63,6 +64,9 @@ public class PostService {
     }
 
     public DataResponsePost viewPost(Long id) {
+        if (!postRepository.findById(id).isPresent()){
+            throw new EntityNotFoundException(POST_ID_NOT_FOUND);
+        }
         Post post = postRepository.getReferenceById(id);
 
        return DataResponsePost.builder()
@@ -78,12 +82,21 @@ public class PostService {
     }
 
     public String deletePost(Long id){
+        if (!postRepository.findById(id).isPresent()){
+            throw new EntityNotFoundException(POST_ID_NOT_FOUND);
+        }
         Post post = postRepository.getReferenceById(id);
         postRepository.delete(post);
         return POST_DELETED_SUCCESSFULLY;
     }
 
     public DataResponsePost updatePost(DataUpdatePost dataUpdatePost) {
+        if (!postRepository.findById(dataUpdatePost.id()).isPresent()){
+            throw new EntityNotFoundException(POST_ID_NOT_FOUND);
+        }
+        if (!courseRepository.findById(dataUpdatePost.courseId()).isPresent()){
+            throw new EntityNotFoundException(COURSE_ID_NOT_FOUND);
+        }
         Post post = postRepository.getReferenceById(dataUpdatePost.id());
         Course course = courseRepository.findById(dataUpdatePost.courseId()).get();
 

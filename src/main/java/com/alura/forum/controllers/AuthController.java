@@ -3,6 +3,7 @@ package com.alura.forum.controllers;
 import com.alura.forum.models.user.AuthResponse;
 import com.alura.forum.models.user.DataLogInUser;
 import com.alura.forum.models.user.DataSignUpUser;
+import com.alura.forum.models.user.UserInfo;
 import com.alura.forum.services.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -81,7 +82,7 @@ public class AuthController {
                             responseCode = "401")
             }
     )
-    public ResponseEntity<AuthResponse> signUp(@Valid @RequestBody DataSignUpUser dataSignUpUser) {
+    public ResponseEntity<UserInfo> signUp(@Valid @RequestBody DataSignUpUser dataSignUpUser) {
         return ResponseEntity.ok(authService.signUp(dataSignUpUser));
     }
 }

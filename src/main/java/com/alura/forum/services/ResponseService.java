@@ -2,9 +2,9 @@ package com.alura.forum.services;
 
 import static com.alura.forum.constants.Constants.USER_ID_NOT_FOUND;
 import static com.alura.forum.constants.Constants.POST_ID_NOT_FOUND;
+import static com.alura.forum.constants.Constants.RESPONSE_ID_NOT_FOUND;
 import static com.alura.forum.constants.Constants.RESPONSE_DELETED_SUCCESSFULLY;
 
-import com.alura.forum.infra.errors.IntegrityValidations;
 import com.alura.forum.models.post.Post;
 import com.alura.forum.models.response.DataResponse;
 import com.alura.forum.models.response.DataResponseBody;
@@ -14,6 +14,7 @@ import com.alura.forum.models.user.User;
 import com.alura.forum.repositories.PostRepository;
 import com.alura.forum.repositories.ResponseRepository;
 import com.alura.forum.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +31,10 @@ public class ResponseService {
 
     public DataResponseBody addResponse(DataResponse dataResponse){
         if (!postRepository.findById(dataResponse.postId()).isPresent()){
-            throw new IntegrityValidations(POST_ID_NOT_FOUND);
+            throw new EntityNotFoundException(POST_ID_NOT_FOUND);
         }
         if (!userRepository.findById(dataResponse.userId()).isPresent()){
-            throw new IntegrityValidations(USER_ID_NOT_FOUND);
+            throw new EntityNotFoundException(USER_ID_NOT_FOUND);
         }
         Post post = postRepository.findById(dataResponse.postId()).get();
         User user = userRepository.findById(dataResponse.userId()).get();
@@ -53,6 +54,9 @@ public class ResponseService {
     }
 
     public DataResponseBody updateResponse(DataUpdateResponse dataUpdateResponse) {
+        if (!responseRepository.findById(dataUpdateResponse.id()).isPresent()){
+            throw new EntityNotFoundException(RESPONSE_ID_NOT_FOUND);
+        }
         Response response = responseRepository.getReferenceById(dataUpdateResponse.id());
         response.setText(dataUpdateResponse.text());
         responseRepository.save(response);
@@ -68,12 +72,18 @@ public class ResponseService {
     }
 
     public String deletePost(Long id) {
+        if (!responseRepository.findById(id).isPresent()){
+            throw new EntityNotFoundException(RESPONSE_ID_NOT_FOUND);
+        }
         Response response = responseRepository.getReferenceById(id);
         responseRepository.delete(response);
         return RESPONSE_DELETED_SUCCESSFULLY;
     }
 
     public DataResponseBody checkSolution(Long id) {
+        if (!responseRepository.findById(id).isPresent()){
+            throw new EntityNotFoundException(RESPONSE_ID_NOT_FOUND);
+        }
         Response response = responseRepository.getReferenceById(id);
         response.setSolution(!response.getSolution());
         responseRepository.save(response);

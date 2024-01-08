@@ -30,14 +30,13 @@ public class AuthService{
         return new AuthResponse(token);
     }
 
-    public AuthResponse signUp(DataSignUpUser dataSignUpUser) {
+    public UserInfo signUp(DataSignUpUser dataSignUpUser) {
         User user = User.builder()
                 .username(dataSignUpUser.username())
                 .email(dataSignUpUser.email())
                 .password(passwordEncoder.encode(dataSignUpUser.password()))
                 .build();
-
         userRepository.save(user);
-        return new AuthResponse(tokenService.getToken(user));
+        return new UserInfo(user.getId(), user.getEmail(), user.getUsername());
     }
 }
