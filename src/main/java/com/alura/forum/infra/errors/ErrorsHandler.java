@@ -1,7 +1,11 @@
 package com.alura.forum.infra.errors;
 
+import static com.alura.forum.constants.Constants.MALFORMED_JSON_BODY;
+
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.ValidationException;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -9,33 +13,33 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 public class ErrorsHandler {
+
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity handleError404(){
-        return ResponseEntity.notFound().build();
+    public ResponseEntity handleError404(EntityNotFoundException ex){
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND, ex);
+        errorResponse.setDebugMessage(ex.getLocalizedMessage());
+        return buildResponseEntity(errorResponse);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity handleError400(MethodArgumentNotValidException e){
-        List errors = e.getFieldErrors().stream().map(errorDataValidation::new).toList();
-
-        return ResponseEntity.badRequest().body(errors);
+        List subErrors = e.getFieldErrors().stream().map(errorDataValidation::new).toList();
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, MALFORMED_JSON_BODY, e, subErrors);
+        errorResponse.setMessage(e.getMessage());
+        errorResponse.setDebugMessage(e.getLocalizedMessage());
+        return buildResponseEntity(errorResponse);
     }
 
-    @ExceptionHandler(IntegrityValidations.class)
-    public ResponseEntity errorHandlerIntegrityValidations(Exception e){
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
-    @ExceptionHandler(ValidationException.class)
-    public ResponseEntity errorHandlerBusinessValidations(Exception e){
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
-    private record errorDataValidation(String field, String error){
+    private record errorDataValidation(Object object, String field, String error){
         public errorDataValidation(FieldError error){
-            this(error.getField(), error.getDefaultMessage());
+            this(error.getObjectName(), error.getField(), error.getDefaultMessage());
         }
+    }
+
+    private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
+        return new ResponseEntity<>(errorResponse, errorResponse.getStatus());
     }
 }
