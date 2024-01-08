@@ -8,9 +8,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
@@ -36,12 +38,16 @@ public class ErrorsHandler {
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity handleError400(SQLIntegrityConstraintViolationException e){
+    public ResponseEntity handleSqlQueryException(SQLIntegrityConstraintViolationException e){
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "An error occurred in the DataBase", e);
         return buildResponseEntity(errorResponse);
     }
 
-
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity handleErrorMethodNotSupported(HttpRequestMethodNotSupportedException ex){
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.METHOD_NOT_ALLOWED, ex);
+         return buildResponseEntity(errorResponse);
+    }
 
     private record errorDataValidation(Object object, String field, String error){
         public errorDataValidation(FieldError error){
