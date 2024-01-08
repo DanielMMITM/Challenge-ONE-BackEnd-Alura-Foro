@@ -11,6 +11,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -32,6 +34,14 @@ public class ErrorsHandler {
         errorResponse.setDebugMessage(e.getLocalizedMessage());
         return buildResponseEntity(errorResponse);
     }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity handleError400(SQLIntegrityConstraintViolationException e){
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "An error occurred in the DataBase", e);
+        return buildResponseEntity(errorResponse);
+    }
+
+
 
     private record errorDataValidation(Object object, String field, String error){
         public errorDataValidation(FieldError error){
