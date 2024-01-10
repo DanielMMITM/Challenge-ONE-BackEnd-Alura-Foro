@@ -2,6 +2,9 @@ package com.alura.forum.infra.errors;
 
 import static com.alura.forum.constants.Constants.MALFORMED_JSON_BODY;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -48,6 +51,46 @@ public class ErrorsHandler {
          ErrorResponse errorResponse = new ErrorResponse(HttpStatus.METHOD_NOT_ALLOWED, ex);
          return buildResponseEntity(errorResponse);
     }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity handleJWTExpiredException(ExpiredJwtException ex){
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN, "JWT Expired", ex);
+        return buildResponseEntity(errorResponse);
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    public ResponseEntity handleSignatureException(SignatureException ex){
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN, "JWT Signature not valid", ex);
+        return buildResponseEntity(errorResponse);
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    public ResponseEntity handleMalformedJWTException(MalformedJwtException ex){
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN, "Malformed JWT", ex);
+        return buildResponseEntity(errorResponse);
+    }
+
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity handleJWTExceptions(Exception ex){
+//        System.out.println("ESTE ES EL PRINTSTACK TRACE");
+//        ex.printStackTrace();
+//        if(ex instanceof SignatureException){
+//            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN, "JWT Signature not valid", ex);
+//            return buildResponseEntity(errorResponse);
+//        }
+//        else if (ex instanceof ExpiredJwtException) {
+//            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN, "JWT Expired", ex);
+//            return buildResponseEntity(errorResponse);
+//        }
+//        else if (ex instanceof MalformedJwtException) {
+//            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN, "Malformed JWT", ex);
+//            return buildResponseEntity(errorResponse);
+//
+//        } else{
+//            ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex);
+//            return buildResponseEntity(errorResponse);
+//        }
+//    }
 
     private record errorDataValidation(Object object, String field, String error){
         public errorDataValidation(FieldError error){
