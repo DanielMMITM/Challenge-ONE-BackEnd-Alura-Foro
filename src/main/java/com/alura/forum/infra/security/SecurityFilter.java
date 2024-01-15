@@ -5,7 +5,6 @@ import static com.alura.forum.constants.Constants.BEGIN_INDEX;
 
 import com.alura.forum.services.TokenService;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-
 import java.io.IOException;
 
 @Component
@@ -71,7 +69,6 @@ public class SecurityFilter extends OncePerRequestFilter {
         catch (SignatureException exception){
             handlerExceptionResolver.resolveException(request, response, null, exception);
         }
-
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {

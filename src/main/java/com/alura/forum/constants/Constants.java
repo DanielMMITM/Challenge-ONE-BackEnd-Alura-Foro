@@ -25,4 +25,10 @@ public final class Constants {
             "/auth/**"
     };
     public static final String MALFORMED_JSON_BODY = "Malformed JSON body";
+    public static final String DELETE_USER_PATH = "/users/{id}";
+    public static final String ROLE_ADMIN = "ADMIN";
+    public static final String DATABASE_ERROR = "An error occurred in the Database";
+    public static final String EXPIRED_JWT = "JWT Expired";
+    public static final String MALFORMED_JWT = "Malformed JWT";
+    public static final String SIGNATURE_NOT_VALID = "JWT Signature not valid";
 }

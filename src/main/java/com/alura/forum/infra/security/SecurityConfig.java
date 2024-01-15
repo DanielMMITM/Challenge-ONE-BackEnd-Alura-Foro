@@ -1,6 +1,8 @@
 package com.alura.forum.infra.security;
 
 import static com.alura.forum.constants.Constants.PUBLIC_URLS;
+import static com.alura.forum.constants.Constants.DELETE_USER_PATH;
+import static com.alura.forum.constants.Constants.ROLE_ADMIN;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +36,7 @@ public class SecurityConfig {
                 .and()
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authRequest -> authRequest.requestMatchers(PUBLIC_URLS).permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, DELETE_USER_PATH).hasAuthority(ROLE_ADMIN)
                     .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager->sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
