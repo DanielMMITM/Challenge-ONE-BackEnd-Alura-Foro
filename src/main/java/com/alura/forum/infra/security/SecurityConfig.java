@@ -23,16 +23,14 @@ public class SecurityConfig {
     @Autowired
     private AuthenticationProvider authProvider;
     @Autowired
-    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-    @Autowired
-    private CustomAccessDeniedHandler customAccessDeniedHandler;
+    private HttpEndpointChecker endpointChecker;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity
-                .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint)
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint(endpointChecker))
                 .and()
-                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
+                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler(endpointChecker))
                 .and()
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authRequest -> authRequest.requestMatchers(PUBLIC_URLS).permitAll()
