@@ -31,4 +31,6 @@ public final class Constants {
     public static final String EXPIRED_JWT = "JWT Expired";
     public static final String MALFORMED_JWT = "Malformed JWT";
     public static final String SIGNATURE_NOT_VALID = "JWT Signature not valid";
+    public static final String EMPTY = "";
+
 }

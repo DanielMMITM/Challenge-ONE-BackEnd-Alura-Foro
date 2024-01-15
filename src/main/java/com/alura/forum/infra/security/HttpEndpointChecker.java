@@ -1,5 +1,7 @@
 package com.alura.forum.infra.security;
 
+import static com.alura.forum.constants.Constants.EMPTY;
+
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,7 +18,7 @@ public class HttpEndpointChecker {
         for (HandlerMapping handlerMapping : dispatcherServlet.getHandlerMappings()) {
             try {
                 HandlerExecutionChain foundHandler = handlerMapping.getHandler(request);
-                if (foundHandler != null || foundHandler.toString() != "") {
+                if (foundHandler != null || foundHandler.toString() != EMPTY) {
                     return true;
                 }
             } catch (Exception e) {
