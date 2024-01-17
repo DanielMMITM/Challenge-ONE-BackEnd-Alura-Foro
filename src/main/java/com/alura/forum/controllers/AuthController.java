@@ -68,7 +68,7 @@ public class AuthController {
     @Transactional
     @Operation(summary = "Perform a register action. A new user is created in the database",
             description = "The user info are send through the body so a insert query is performed into the database.",
-            tags = {"User"},
+            tags = {"Authentication"},
             parameters = {
                 @Parameter(name = "username",
                         required = true,
