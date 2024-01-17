@@ -16,6 +16,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import com.alura.forum.infra.errors.ErrorResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,19 +40,19 @@ public class ResponseController {
                     "and attached to the post.",
             tags = {"Response"},
             parameters = {
-                @Parameter(name = "Text",
+                @Parameter(name = "text",
                         description = "The text/body of the answer",
                         required = true,
                         example = "You should watch a tutorial",
                         schema = @Schema(type = "String")
                 ),
-                @Parameter(name = "Post Id",
+                @Parameter(name = "postId",
                         description = "The id of the post that is being answered",
                         required = true,
                         example = "1",
                         schema = @Schema(type = "Long")
                 ),
-                @Parameter(name = "User Id",
+                @Parameter(name = "userId",
                         description = "The id of the user that is answering",
                         required = true,
                         example = "1",
@@ -62,10 +63,21 @@ public class ResponseController {
             method = "POST"
     )
     @ApiResponses(value = {
-            @ApiResponse(description = "Answer created", responseCode = "200"),
-            @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
-            @ApiResponse(description = "Unauthorized. You must authenticate",
-                    responseCode = "401")
+            @ApiResponse(description = "Answer created", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = DataResponseBody.class))
+            ),
+            @ApiResponse(description = "Bad request (missing fields)", responseCode = "400",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "Unauthorized. You must authenticate", responseCode = "401",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "You don't have permission", responseCode = "403",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
     })
     public ResponseEntity<DataResponseBody> addResponse(@Valid @RequestBody DataResponse dataResponse){
         return ResponseEntity.ok(responseService.addResponse(dataResponse));
@@ -78,13 +90,13 @@ public class ResponseController {
                     "then the answer is updated in the database.",
             tags = {"Response"},
             parameters = {
-                @Parameter(name = "Id",
+                @Parameter(name = "id",
                         description = "The id of the answer to update",
                         required = true,
                         example = "1",
                         schema = @Schema(type = "Long")
                 ),
-                @Parameter(name = "Text",
+                @Parameter(name = "text",
                         description = "The text/body of the answer",
                         required = true,
                         example = "You should watch a tutorial",
@@ -95,10 +107,20 @@ public class ResponseController {
     )
     @ApiResponses(value = {
             @ApiResponse(description = "Answer updated", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = DataResponseBody.class))),
-            @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
-            @ApiResponse(description = "Unauthorized. You must authenticate",
-                    responseCode = "401")
+                    content = @Content(schema = @Schema(implementation = DataResponseBody.class))
+            ),
+            @ApiResponse(description = "Bad request (missing fields)", responseCode = "400",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "Unauthorized. You must authenticate", responseCode = "401",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "You don't have permission", responseCode = "403",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
     })
     public ResponseEntity<DataResponseBody> updateResponse(@Valid @RequestBody DataUpdateResponse dataUpdateResponse){
         return ResponseEntity.ok(responseService.updateResponse(dataUpdateResponse));
@@ -110,7 +132,7 @@ public class ResponseController {
             description = "The id of the response is send through the URL and then the service perform a delete action inside the database.",
             tags = {"Response"},
             parameters = {
-                @Parameter(name = "Id",
+                @Parameter(name = "id",
                         in = ParameterIn.PATH,
                         description = "The id of the answer to delete",
                         required = true,
@@ -122,9 +144,18 @@ public class ResponseController {
     )
     @ApiResponses(value = {
             @ApiResponse(description = "Answer deleted. Returns a string reporting that the answer was successfully deleted",
-                    responseCode = "200"),
-            @ApiResponse(description = "Unauthorized. You must authenticate",
-                    responseCode = "401")
+                    responseCode = "200",
+                    content = @Content(schema = @Schema(type = "String"))
+            ),
+            @ApiResponse(description = "Unauthorized. You must authenticate", responseCode = "401",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "You don't have permission", responseCode = "403",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
     })
     public ResponseEntity deleteResponse(@PathVariable Long id){
         return ResponseEntity.ok(responseService.deletePost(id));
@@ -136,7 +167,7 @@ public class ResponseController {
             description = "The user sends the id of the response through the URL and then it is updated on the database.",
             tags = {"Response"},
             parameters = {
-                @Parameter(name = "Id",
+                @Parameter(name = "id",
                         in = ParameterIn.PATH,
                         description = "The id of the answer to mark it as a solution",
                         required = true,
@@ -148,9 +179,14 @@ public class ResponseController {
     )
     @ApiResponses(value = {
             @ApiResponse(description = "Answer checked", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = DataResponseBody.class))),
-            @ApiResponse(description = "Unauthorized. You must authenticate",
-                    responseCode = "401")
+                    content = @Content(schema = @Schema(implementation = DataResponseBody.class))
+            ),
+            @ApiResponse(description = "Unauthorized. You must authenticate", responseCode = "401",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "You don't have permission", responseCode = "403",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
     })
     public ResponseEntity<DataResponseBody> checkSolution(@PathVariable Long id){
         return ResponseEntity.ok(responseService.checkSolution(id));
