@@ -8,8 +8,10 @@ import com.alura.forum.services.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import com.alura.forum.infra.errors.ErrorResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,35 +45,47 @@ public class PostController {
             description = "It requires a title, text, course id and the user id that is the one that its posting it to" +
                     "successfully insert the post in the database.",
             parameters = {
-                @Parameter(name = "Title",
+                @Parameter(name = "title",
                     description = "Title of the post",
                     required = true,
                     example = "I need help with my login, can't handle this error: Error MB676",
                     schema = @Schema(type = "String")),
-                @Parameter(name = "Text",
+                @Parameter(name = "text",
                         description = "Text/body of the post",
                         required = true,
                         example = "I was doing my model and tried to run the app then this error pop up",
                         schema = @Schema(type = "String")),
-                @Parameter(name = "UserId",
+                @Parameter(name = "userId",
                         description = "Id of the user that is posting",
                         required = true,
                         example = "1",
                         schema = @Schema(type = "Long")),
-                @Parameter(name = "CourseId",
+                @Parameter(name = "courseId",
                         description = "Id of the course that your post is about",
                         required = true,
                         example = "1",
                         schema = @Schema(type = "Long")),
             },
             tags = {"Posts"},
-            method = "POST",
-            responses = {@ApiResponse(description = "Post created", responseCode = "201"),
-                    @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
-                    @ApiResponse(description = "Unauthorized. You must authenticate",
-                            responseCode = "401")
-            }
+            method = "POST"
     )
+    @ApiResponses(value = {
+            @ApiResponse(description = "Post created", responseCode = "201",
+                    content = @Content(schema = @Schema(implementation = DataResponsePost.class))
+            ),
+            @ApiResponse(description = "Bad request (missing fields)", responseCode = "400",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "Unauthorized. You must authenticate", responseCode = "401",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "You don't have permission", responseCode = "403",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     public ResponseEntity<DataResponsePost> publish(@Valid @RequestBody DataPost dataPost, UriComponentsBuilder uriComponentsBuilder){
         return postService.publish(dataPost, uriComponentsBuilder);
     }
@@ -81,25 +96,32 @@ public class PostController {
                     "If required send the page, size or sort by the URL.",
             tags = {"Posts"},
             parameters = {
-                @Parameter(name = "Page",
+                @Parameter(name = "page",
                         description = "Number of page to show",
                         example = "1",
                         schema = @Schema(type = "Int")),
-                @Parameter(name = "Size",
+                @Parameter(name = "size",
                         description = "Number of objects to be shown on the page",
                         example = "1",
                         schema = @Schema(type = "Int")),
-                @Parameter(name = "Sort",
+                @Parameter(name = "sort",
                         description = "Value to sort the objects",
                         example = "title",
                         schema = @Schema(type = "String"))
             },
-            method = "GET",
-            responses = {@ApiResponse(description = "Posts retrieved", responseCode = "200"),
-                    @ApiResponse(description = "Unauthorized. You must authenticate",
-                            responseCode = "401")
-            }
+            method = "GET"
     )
+    @ApiResponses(value = {
+            @ApiResponse(description = "Posts retrieved", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = Page.class))
+            ),
+            @ApiResponse(description = "Unauthorized. You must authenticate", responseCode = "401",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "You don't have permission", responseCode = "403",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     public ResponseEntity<Page<DataListPosts>> listPosts(@PageableDefault(size = 2) Pageable pagination){
         return ResponseEntity.ok(postService.listPosts(pagination));
     }
@@ -109,7 +131,7 @@ public class PostController {
             description = "This endpoint retrieves the post selected by the user and shows it with all the answers." +
                     "The post id is send through the URL.",
             parameters = {
-                @Parameter(name = "Post Id",
+                @Parameter(name = "id",
                         in = ParameterIn.PATH,
                         description = "Id of the post to show",
                         required = true,
@@ -117,12 +139,22 @@ public class PostController {
                         schema = @Schema(type = "Long")),
             },
             tags = {"Posts"},
-            method = "GET",
-            responses = {@ApiResponse(description = "Post retrieved", responseCode = "200"),
-                    @ApiResponse(description = "Unauthorized. You must authenticate",
-                            responseCode = "401")
-            }
+            method = "GET"
     )
+    @ApiResponses(value = {
+            @ApiResponse(description = "Post retrieved", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = DataResponsePost.class))
+            ),
+            @ApiResponse(description = "Unauthorized. You must authenticate", responseCode = "401",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "You don't have permission", responseCode = "403",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     public ResponseEntity<DataResponsePost>viewPost(@PathVariable Long id){
         return new ResponseEntity(postService.viewPost(id), HttpStatus.OK);
     }
@@ -133,7 +165,7 @@ public class PostController {
     @Operation(summary = "Delete a specific post from the database",
             description = "This endpoint delete the post selected by the user. The post id is send through the URL.",
             parameters = {
-                @Parameter(name = "Post id",
+                @Parameter(name = "id",
                         in = ParameterIn.PATH,
                         description = "Id of the post to delete",
                         required = true,
@@ -141,12 +173,22 @@ public class PostController {
                         schema = @Schema(type = "Long")),
             },
             tags = {"Posts"},
-            method = "DELETE",
-            responses = {@ApiResponse(description = "Post deleted", responseCode = "200"),
-                    @ApiResponse(description = "Unauthorized. You must authenticate",
-                            responseCode = "401")
-            }
+            method = "DELETE"
     )
+    @ApiResponses(value = {
+            @ApiResponse(description = "Post deleted", responseCode = "200",
+                    content = @Content(schema = @Schema(type = "String"))
+            ),
+            @ApiResponse(description = "Unauthorized. You must authenticate", responseCode = "401",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "You don't have permission", responseCode = "403",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     public ResponseEntity deletePost(@PathVariable Long id){
         return ResponseEntity.ok(postService.deletePost(id));
     }
@@ -156,39 +198,51 @@ public class PostController {
     @Operation(summary = "Edit a specific post from the database",
             description = "This endpoint update the post selected by the user. The body requires its id, title, text, status and courseId.",
             parameters = {
-                @Parameter(name = "Post id",
+                @Parameter(name = "postId",
                         description = "Id of the post that you want to edit",
                         required = true,
                         example = "1",
                         schema = @Schema(type = "Long")),
-                @Parameter(name = "Title",
+                @Parameter(name = "title",
                         description = "Title of the post",
                         required = true,
                         example = "I need help with my login, can't handle this error: Error MB676",
                         schema = @Schema(type = "String")),
-                @Parameter(name = "Text",
+                @Parameter(name = "text",
                         description = "Text/body of the post",
                         required = true,
                         example = "I was doing my model and tried to run the app then this error pop up",
                         schema = @Schema(type = "String")),
-                @Parameter(name = "StatusPost",
+                @Parameter(name = "statusPost",
                         description = "Status of the post",
                         example = "NOT_SOLVED",
                         schema = @Schema(type = "statusPost")),
-                @Parameter(name = "Course Id",
+                @Parameter(name = "courseId",
                         description = "Id of the course that your post is about",
                         required = true,
                         example = "1",
                         schema = @Schema(type = "Long")),
             },
             tags = {"Posts"},
-            method = "PUT",
-            responses = {@ApiResponse(description = "Post updated", responseCode = "200"),
-                    @ApiResponse(description = "Bad request (missing fields)", responseCode = "400"),
-                    @ApiResponse(description = "Unauthorized. You must authenticate",
-                            responseCode = "401")
-            }
+            method = "PUT"
     )
+    @ApiResponses(value = {
+            @ApiResponse(description = "Post updated", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = DataResponsePost.class))
+            ),
+            @ApiResponse(description = "Bad request (missing fields)", responseCode = "400",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "Unauthorized. You must authenticate", responseCode = "401",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "You don't have permission", responseCode = "403",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     public ResponseEntity<DataResponsePost> updatePost(@RequestBody @Valid DataUpdatePost dataUpdatePost){
         return ResponseEntity.ok(postService.updatePost(dataUpdatePost));
     }
