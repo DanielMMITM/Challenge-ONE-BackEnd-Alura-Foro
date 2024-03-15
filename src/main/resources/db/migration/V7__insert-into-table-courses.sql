@@ -1,4 +1,4 @@
-DELETE FROM forum.courses;
+DELETE FROM courses;
 
-INSERT INTO forum.courses (id, name, category) VALUES ('1', 'Spring Boot', 'Java');
-INSERT INTO forum.courses (id, name, category) VALUES ('2', 'Django', 'Python');
+INSERT INTO courses (id, name, category) VALUES ('1', 'Spring Boot', 'Java');
+INSERT INTO courses (id, name, category) VALUES ('2', 'Django', 'Python');
