@@ -14,6 +14,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,6 +30,13 @@ public class ErrorsHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity handleError404(EntityNotFoundException ex){
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND, ex);
+        errorResponse.setDebugMessage(ex.getLocalizedMessage());
+        return buildResponseEntity(errorResponse);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity handleBadCredentials(BadCredentialsException ex){
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, "Invalid credentials. Try again", ex);
         errorResponse.setDebugMessage(ex.getLocalizedMessage());
         return buildResponseEntity(errorResponse);
     }
