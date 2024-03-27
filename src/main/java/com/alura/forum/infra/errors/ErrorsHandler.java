@@ -64,19 +64,19 @@ public class ErrorsHandler {
 
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity handleJWTExpiredException(ExpiredJwtException ex){
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN, EXPIRED_JWT, ex);
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, EXPIRED_JWT, ex);
         return buildResponseEntity(errorResponse);
     }
 
     @ExceptionHandler(SignatureException.class)
     public ResponseEntity handleSignatureException(SignatureException ex){
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN, SIGNATURE_NOT_VALID, ex);
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, SIGNATURE_NOT_VALID, ex);
         return buildResponseEntity(errorResponse);
     }
 
     @ExceptionHandler(MalformedJwtException.class)
     public ResponseEntity handleMalformedJWTException(MalformedJwtException ex){
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.FORBIDDEN, MALFORMED_JWT, ex);
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, MALFORMED_JWT, ex);
         return buildResponseEntity(errorResponse);
     }
 
