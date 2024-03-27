@@ -122,7 +122,7 @@ public class PostController {
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))
             )
     })
-    public ResponseEntity<Page<DataListPosts>> listPosts(@PageableDefault(size = 2) Pageable pagination){
+    public ResponseEntity<Page<DataListPosts>> listPosts(@PageableDefault(size = 10) Pageable pagination){
         return ResponseEntity.ok(postService.listPosts(pagination));
     }
 
