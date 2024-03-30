@@ -1,5 +1,6 @@
 package com.alura.forum.infra.errors;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,28 +11,33 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ErrorResponse {
+    private Integer code;
     private HttpStatus status;
     private String message;
     private String debugMessage;
     private List<SubError> subErrors;
 
-    public ErrorResponse(HttpStatus status) {
+    public ErrorResponse(HttpStatus status, Integer code) {
         this.status = status;
+        this.code = code;
     }
 
-    public ErrorResponse(HttpStatus status, Throwable ex) {
+    public ErrorResponse(Integer code, HttpStatus status, Throwable ex) {
+        this.code = code;
         this.status = status;
         this.message = "Unexpected error";
         this.debugMessage = ex.getLocalizedMessage();
     }
 
-    ErrorResponse(HttpStatus status, String message, Throwable ex) {
+    ErrorResponse(Integer code, HttpStatus status, String message, Throwable ex) {
+        this.code = code;
         this.status = status;
         this.message = message;
         this.debugMessage = ex.getLocalizedMessage();
     }
 
-    ErrorResponse(HttpStatus status, String message, Throwable ex, List subErrors) {
+    ErrorResponse(Integer code, HttpStatus status, String message, Throwable ex, List subErrors) {
+        this.code = code;
         this.status = status;
         this.message = message;
         this.debugMessage = ex.getLocalizedMessage();

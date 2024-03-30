@@ -2,7 +2,6 @@ package com.alura.forum.infra.security;
 
 import com.alura.forum.infra.errors.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -24,7 +23,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint{
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException{
         if (!httpEndpointChecker.isEndpointExist(request)) {
-            ErrorResponse re = new ErrorResponse(HttpStatus.NOT_FOUND);
+            ErrorResponse re = new ErrorResponse(HttpStatus.NOT_FOUND, HttpServletResponse.SC_NOT_FOUND);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             OutputStream responseStream = response.getOutputStream();
@@ -32,7 +31,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint{
             mapper.writeValue(responseStream, re);
             responseStream.flush();
         } else {
-            ErrorResponse re = new ErrorResponse(HttpStatus.UNAUTHORIZED, authException);
+            ErrorResponse re = new ErrorResponse(HttpServletResponse.SC_UNAUTHORIZED, HttpStatus.UNAUTHORIZED, authException);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             OutputStream responseStream = response.getOutputStream();

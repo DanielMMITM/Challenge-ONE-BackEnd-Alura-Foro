@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
@@ -29,14 +30,14 @@ public class ErrorsHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity handleError404(EntityNotFoundException ex){
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND, ex);
+        ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_NOT_FOUND, HttpStatus.NOT_FOUND, ex);
         errorResponse.setDebugMessage(ex.getLocalizedMessage());
         return buildResponseEntity(errorResponse);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity handleBadCredentials(BadCredentialsException ex){
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, "Invalid credentials. Try again", ex);
+        ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_UNAUTHORIZED, HttpStatus.UNAUTHORIZED, "Invalid credentials. Try again", ex);
         errorResponse.setDebugMessage(ex.getLocalizedMessage());
         return buildResponseEntity(errorResponse);
     }
@@ -44,7 +45,7 @@ public class ErrorsHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity handleError400(MethodArgumentNotValidException e){
         List subErrors = e.getFieldErrors().stream().map(errorDataValidation::new).toList();
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, MALFORMED_JSON_BODY, e, subErrors);
+        ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_BAD_REQUEST, HttpStatus.BAD_REQUEST, MALFORMED_JSON_BODY, e, subErrors);
         errorResponse.setMessage(e.getMessage());
         errorResponse.setDebugMessage(e.getLocalizedMessage());
         return buildResponseEntity(errorResponse);
@@ -52,31 +53,31 @@ public class ErrorsHandler {
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity handleSqlQueryException(SQLIntegrityConstraintViolationException e){
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, DATABASE_ERROR, e);
+        ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_BAD_REQUEST, HttpStatus.BAD_REQUEST, DATABASE_ERROR, e);
         return buildResponseEntity(errorResponse);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity handleErrorMethodNotSupported(HttpRequestMethodNotSupportedException ex){
-         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.METHOD_NOT_ALLOWED, ex);
+         ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_METHOD_NOT_ALLOWED, HttpStatus.METHOD_NOT_ALLOWED, ex);
          return buildResponseEntity(errorResponse);
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity handleJWTExpiredException(ExpiredJwtException ex){
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, EXPIRED_JWT, ex);
+        ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_UNAUTHORIZED, HttpStatus.UNAUTHORIZED, EXPIRED_JWT, ex);
         return buildResponseEntity(errorResponse);
     }
 
     @ExceptionHandler(SignatureException.class)
     public ResponseEntity handleSignatureException(SignatureException ex){
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, SIGNATURE_NOT_VALID, ex);
+        ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_UNAUTHORIZED, HttpStatus.UNAUTHORIZED, SIGNATURE_NOT_VALID, ex);
         return buildResponseEntity(errorResponse);
     }
 
     @ExceptionHandler(MalformedJwtException.class)
     public ResponseEntity handleMalformedJWTException(MalformedJwtException ex){
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, MALFORMED_JWT, ex);
+        ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_UNAUTHORIZED, HttpStatus.UNAUTHORIZED, MALFORMED_JWT, ex);
         return buildResponseEntity(errorResponse);
     }
 

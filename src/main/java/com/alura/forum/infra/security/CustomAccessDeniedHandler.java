@@ -24,7 +24,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         if (!httpEndpointChecker.isEndpointExist(request)) {
-            ErrorResponse re = new ErrorResponse(HttpStatus.NOT_FOUND);
+            ErrorResponse re = new ErrorResponse(HttpStatus.NOT_FOUND, HttpServletResponse.SC_NOT_FOUND);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             OutputStream responseStream = response.getOutputStream();
@@ -33,7 +33,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             responseStream.flush();
         }
         else {
-            ErrorResponse re = new ErrorResponse(HttpStatus.FORBIDDEN, accessDeniedException);
+            ErrorResponse re = new ErrorResponse(HttpServletResponse.SC_FORBIDDEN, HttpStatus.FORBIDDEN, accessDeniedException);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             OutputStream responseStream = response.getOutputStream();
