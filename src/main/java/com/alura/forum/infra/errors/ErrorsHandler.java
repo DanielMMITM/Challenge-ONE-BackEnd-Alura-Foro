@@ -1,17 +1,13 @@
 package com.alura.forum.infra.errors;
 
-import static com.alura.forum.constants.Constants.MALFORMED_JSON_BODY;
-import static com.alura.forum.constants.Constants.DATABASE_ERROR;
-import static com.alura.forum.constants.Constants.EXPIRED_JWT;
-import static com.alura.forum.constants.Constants.SIGNATURE_NOT_VALID;
-import static com.alura.forum.constants.Constants.MALFORMED_JWT;
-
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.persistence.EntityNotFoundException;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,9 +16,14 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.sql.SQLDataException;
+import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import jakarta.servlet.http.HttpServletResponse;
+
+import static com.alura.forum.constants.Constants.*;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
@@ -37,7 +38,7 @@ public class ErrorsHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity handleBadCredentials(BadCredentialsException ex){
-        ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_UNAUTHORIZED, HttpStatus.UNAUTHORIZED, "Invalid credentials. Try again", ex);
+        ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_UNAUTHORIZED, HttpStatus.UNAUTHORIZED, INVALID_CREDENTIALS, ex);
         errorResponse.setDebugMessage(ex.getLocalizedMessage());
         return buildResponseEntity(errorResponse);
     }

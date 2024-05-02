@@ -32,5 +32,7 @@ public final class Constants {
     public static final String MALFORMED_JWT = "Malformed JWT";
     public static final String SIGNATURE_NOT_VALID = "JWT Signature not valid";
     public static final String EMPTY = "";
+    public static final String INVALID_CREDENTIALS = "Invalid credentials. Try again";
+    public static final String INTEGRITY_DATA_VIOLATION = "Invalid credentials. Try again";
 
 }
