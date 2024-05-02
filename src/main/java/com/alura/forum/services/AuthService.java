@@ -8,6 +8,7 @@ import com.alura.forum.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,9 @@ public class AuthService{
 
     public AuthResponse login(DataLogInUser dataLogInUser) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dataLogInUser.username(), dataLogInUser.password()));
-        UserDetails user = userRepository.findOneByUsername(dataLogInUser.username()).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
+        User user = userRepository.findOneByUsername(dataLogInUser.username()).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
         String token = tokenService.getToken(user);
-        return new AuthResponse(token);
+        return new AuthResponse(token, user.getId());
     }
 
     public UserInfo signUp(DataSignUpUser dataSignUpUser) {
