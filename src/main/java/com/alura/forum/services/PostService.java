@@ -10,6 +10,7 @@ import com.alura.forum.models.course.Course;
 import com.alura.forum.models.post.*;
 import com.alura.forum.models.response.DataResponseBody;
 import com.alura.forum.models.user.User;
+import com.alura.forum.models.user.UserInfo;
 import com.alura.forum.repositories.CourseRepository;
 import com.alura.forum.repositories.PostRepository;
 import com.alura.forum.repositories.UserRepository;
@@ -44,12 +45,13 @@ public class PostService {
 
         Post post = postRepository.save(new Post(dataPost, user, course));
 
+
         DataResponsePost dataResponsePost = DataResponsePost.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .text(post.getText())
                 .statusPost(post.getStatusPost().toString())
-                .userId(post.getUser().getId())
+                .userCreator(user)
                 .courseId(post.getCourse().getId())
                 .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
                 .postDate(post.getPostDate())
@@ -68,13 +70,14 @@ public class PostService {
             throw new EntityNotFoundException(POST_ID_NOT_FOUND);
         }
         Post post = postRepository.getReferenceById(id);
+        User user =  userRepository.getReferenceById(post.getUser().getId());
 
        return DataResponsePost.builder()
                .id(post.getId())
                .title(post.getTitle())
                .text(post.getText())
                .statusPost(post.getStatusPost().toString())
-               .userId(post.getUser().getId())
+               .userCreator(user)
                .courseId(post.getCourse().getId())
                .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
                .postDate(post.getPostDate())
@@ -99,6 +102,7 @@ public class PostService {
         }
         Post post = postRepository.getReferenceById(dataUpdatePost.id());
         Course course = courseRepository.findById(dataUpdatePost.courseId()).get();
+        User user =  userRepository.getReferenceById(post.getUser().getId());
 
         post.setTitle(dataUpdatePost.title());
         post.setText(dataUpdatePost.text());
@@ -114,7 +118,7 @@ public class PostService {
                 .title(post.getTitle())
                 .text(post.getText())
                 .statusPost(post.getStatusPost().toString())
-                .userId(post.getUser().getId())
+                .userCreator(user)
                 .courseId(post.getCourse().getId())
                 .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
                 .postDate(post.getPostDate())
