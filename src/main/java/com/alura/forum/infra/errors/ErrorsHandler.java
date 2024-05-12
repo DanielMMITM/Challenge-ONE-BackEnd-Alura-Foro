@@ -4,7 +4,9 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+import org.hibernate.mapping.UniqueKey;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -54,7 +56,7 @@ public class ErrorsHandler {
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity handleSqlQueryException(SQLIntegrityConstraintViolationException e){
-        ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_BAD_REQUEST, HttpStatus.BAD_REQUEST, DATABASE_ERROR, e);
+        ErrorResponse errorResponse = new ErrorResponse(HttpServletResponse.SC_CONFLICT, HttpStatus.CONFLICT, DATABASE_ERROR, e);
         return buildResponseEntity(errorResponse);
     }
 
