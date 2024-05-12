@@ -1,10 +1,7 @@
 package com.alura.forum.models.user;
 
 import com.alura.forum.models.role.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,23 +17,17 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@JsonIgnoreProperties({ "email", "password", "role",
-        "getAuthorities", "getUsername", "getPassword",
-        "isAccountNonExpired", "isAccountNonLocked", "isCredentialsNonExpired", "isEnabled" })
+@JsonIgnoreProperties(value = {"password"})
+@JsonIncludeProperties(value = {"id", "username", "email", "role"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("id")
     private Long id;
-    @JsonProperty("username")
     private String username;
-    @JsonIgnore
     private String email;
-    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @JsonIgnore
     Role role;
 
     public User (DataSignUpUser dataSignUpUser){
@@ -52,7 +43,6 @@ public class User implements UserDetails {
     }
 
     @Override
-    @JsonIgnore
     public String getUsername() {
         return this.username;
     }
