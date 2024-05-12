@@ -1,5 +1,6 @@
 package com.alura.forum.models.response;
 
+import com.alura.forum.models.user.User;
 import lombok.Builder;
 import java.time.LocalDateTime;
 
@@ -9,7 +10,7 @@ public record DataResponseBody(
         String text,
         Boolean solution,
         Long postId,
-        Long userId,
+        User userCreator,
         LocalDateTime responseDate)
 {
     public DataResponseBody(Response response){
@@ -17,7 +18,7 @@ public record DataResponseBody(
             response.getText(),
             response.getSolution().booleanValue(),
             response.getPost().getId(),
-            response.getUser().getId(),
+            response.getUser(),
             response.getResponseDate());
     }
 }

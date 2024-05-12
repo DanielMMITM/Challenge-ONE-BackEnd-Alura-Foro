@@ -48,7 +48,7 @@ public class ResponseService {
                 .text(response.getText())
                 .solution(response.getSolution())
                 .postId(response.getPost().getId())
-                .userId(response.getUser().getId())
+                .userCreator(user)
                 .responseDate(response.getResponseDate())
                 .build();
     }
@@ -58,6 +58,7 @@ public class ResponseService {
             throw new EntityNotFoundException(RESPONSE_ID_NOT_FOUND);
         }
         Response response = responseRepository.getReferenceById(dataUpdateResponse.id());
+        User user = userRepository.getReferenceById(response.getUser().getId());
         response.setText(dataUpdateResponse.text());
         responseRepository.save(response);
 
@@ -66,7 +67,7 @@ public class ResponseService {
                 .text(response.getText())
                 .solution(response.getSolution())
                 .postId(response.getPost().getId())
-                .userId(response.getUser().getId())
+                .userCreator(user)
                 .responseDate(response.getResponseDate())
                 .build();
     }
@@ -85,6 +86,7 @@ public class ResponseService {
             throw new EntityNotFoundException(RESPONSE_ID_NOT_FOUND);
         }
         Response response = responseRepository.getReferenceById(id);
+        User user = userRepository.getReferenceById(response.getUser().getId());
         response.setSolution(!response.getSolution());
         responseRepository.save(response);
         return DataResponseBody.builder()
@@ -92,7 +94,7 @@ public class ResponseService {
                 .text(response.getText())
                 .solution(response.getSolution())
                 .postId(response.getPost().getId())
-                .userId(response.getUser().getId())
+                .userCreator(user)
                 .responseDate(response.getResponseDate())
                 .build();
     }
