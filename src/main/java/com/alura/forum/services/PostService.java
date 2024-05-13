@@ -10,7 +10,6 @@ import com.alura.forum.models.course.Course;
 import com.alura.forum.models.post.*;
 import com.alura.forum.models.response.DataResponseBody;
 import com.alura.forum.models.user.User;
-import com.alura.forum.models.user.UserInfo;
 import com.alura.forum.repositories.CourseRepository;
 import com.alura.forum.repositories.PostRepository;
 import com.alura.forum.repositories.UserRepository;

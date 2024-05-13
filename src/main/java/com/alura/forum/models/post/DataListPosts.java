@@ -1,6 +1,7 @@
 package com.alura.forum.models.post;
 
 import com.alura.forum.models.response.DataResponseBody;
+import com.alura.forum.models.user.User;
 import lombok.Builder;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,7 +13,7 @@ public record DataListPosts(
         String title,
         String text,
         String statusPost,
-        Long userId,
+        User userCreator,
         Long courseId,
         List<DataResponseBody> answers,
         LocalDateTime postDate)
@@ -22,7 +23,7 @@ public record DataListPosts(
             post.getTitle(),
             post.getText(),
             post.getStatusPost().toString(),
-            post.getUser().getId(),
+            post.getUser(),
             post.getCourse().getId(),
             post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()),
             post.getPostDate());
