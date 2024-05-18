@@ -7,6 +7,10 @@ For the database of this project I'm using MySQL. Here are some packages I'm usi
 ## Documentation
 The API documentation is handled by Swagger and I included all the information to let the people know everything about the endpoints.
 **Note:** Maybe there are some things I haven't updated in the documentation like data responses, error responses, status codes, etc. I'm pretty sure there are just a couple of.
+![Swagger Documentation](https://github.com/DanielMMITM/Challenge-ONE-BackEnd-Alura-Foro/assets/86424705/f7bb0da3-195b-44d5-bf95-b8a3a84b3a2f)
+![Create post endpoint](https://github.com/DanielMMITM/Challenge-ONE-BackEnd-Alura-Foro/assets/86424705/79d7c364-7f54-4174-91f7-defc88d3d956)
+![Create post endpoint responses](https://github.com/DanielMMITM/Challenge-ONE-BackEnd-Alura-Foro/assets/86424705/81ba505c-cb8a-4fa8-a29b-500875a26298)
+
 
 ## Custom errors
 For this API I decided to implement a exception handler class to send custom errors through the request body response.
