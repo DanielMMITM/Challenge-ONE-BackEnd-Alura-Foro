@@ -3,6 +3,7 @@ This API was a challenge from the Oracle Next Education Program, there was some 
 
 Visit the Front-end of this project here:[Forum-Front](https://github.com/DanielMMITM/forum-front)
 
+For the database of this project I'm using MySQL. Here are some packages I'm using inside this project: *Lombok*, *Flyway*, *Spring-devtools*, *Spring-security*, *io.jsonwebtoken*.
 ## Documentation
 The API documentation is handled by Swagger and I included all the information to let the people know everything about the endpoints.
 **Note:** Maybe there are some things I haven't updated in the documentation like data responses, error responses, status codes, etc. I'm pretty sure there are just a couple of.
