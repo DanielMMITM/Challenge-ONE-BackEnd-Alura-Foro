@@ -1,5 +1,6 @@
 package com.alura.forum.models.post;
 
+import com.alura.forum.models.course.Course;
 import com.alura.forum.models.response.DataResponseBody;
 import com.alura.forum.models.user.User;
 import lombok.Builder;
@@ -14,7 +15,7 @@ public record DataListPosts(
         String text,
         String statusPost,
         User userCreator,
-        Long courseId,
+        Course course,
         List<DataResponseBody> answers,
         LocalDateTime postDate)
 {
@@ -24,7 +25,7 @@ public record DataListPosts(
             post.getText(),
             post.getStatusPost().toString(),
             post.getUser(),
-            post.getCourse().getId(),
+            post.getCourse(),
             post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()),
             post.getPostDate());
     }
