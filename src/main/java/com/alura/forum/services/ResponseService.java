@@ -6,6 +6,7 @@ import static com.alura.forum.constants.Constants.RESPONSE_ID_NOT_FOUND;
 import static com.alura.forum.constants.Constants.RESPONSE_DELETED_SUCCESSFULLY;
 
 import com.alura.forum.models.post.Post;
+import com.alura.forum.models.post.StatusPost;
 import com.alura.forum.models.response.DataResponse;
 import com.alura.forum.models.response.DataResponseBody;
 import com.alura.forum.models.response.DataUpdateResponse;
@@ -38,6 +39,10 @@ public class ResponseService {
         }
         Post post = postRepository.findById(dataResponse.postId()).get();
         User user = userRepository.findById(dataResponse.userId()).get();
+
+        if(post.getAnswers().isEmpty()){
+            post.setStatusPost(StatusPost.NOT_SOLVED);
+        }
 
         Response response = responseRepository.save(new Response(dataResponse, post, user));
         post.addAnswer(response);
