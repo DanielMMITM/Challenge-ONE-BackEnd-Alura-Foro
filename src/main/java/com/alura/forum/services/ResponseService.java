@@ -91,9 +91,25 @@ public class ResponseService {
             throw new EntityNotFoundException(RESPONSE_ID_NOT_FOUND);
         }
         Response response = responseRepository.getReferenceById(id);
+
+        if(!postRepository.findById(response.getPost().getId()).isPresent()){
+            throw new EntityNotFoundException(POST_ID_NOT_FOUND);
+        }
+
+        Post post = postRepository.getReferenceById(response.getPost().getId());
+
         User user = userRepository.getReferenceById(response.getUser().getId());
         response.setSolution(!response.getSolution());
         responseRepository.save(response);
+
+        if(response.getSolution()){
+            post.setStatusPost(StatusPost.SOLVED);
+        }
+        else{
+            post.setStatusPost(StatusPost.NOT_SOLVED);
+        }
+        postRepository.save(post);
+
         return DataResponseBody.builder()
                 .id(response.getId())
                 .text(response.getText())
