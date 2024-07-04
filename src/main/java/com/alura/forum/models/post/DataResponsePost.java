@@ -1,8 +1,8 @@
 package com.alura.forum.models.post;
 
+import com.alura.forum.models.course.Course;
 import com.alura.forum.models.response.DataResponseBody;
 import com.alura.forum.models.user.User;
-import com.alura.forum.models.user.UserInfo;
 import lombok.Builder;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +14,7 @@ public record DataResponsePost(
         String text,
         String statusPost,
         User userCreator,
-        Long courseId,
+        Course course,
         List<DataResponseBody> answers,
         LocalDateTime postDate){
 }

@@ -51,7 +51,7 @@ public class PostService {
                 .text(post.getText())
                 .statusPost(post.getStatusPost().toString())
                 .userCreator(user)
-                .courseId(post.getCourse().getId())
+                .course(post.getCourse())
                 .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
                 .postDate(post.getPostDate())
                 .build();
@@ -77,7 +77,7 @@ public class PostService {
                .text(post.getText())
                .statusPost(post.getStatusPost().toString())
                .userCreator(user)
-               .courseId(post.getCourse().getId())
+               .course(post.getCourse())
                .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
                .postDate(post.getPostDate())
                .build();
@@ -118,7 +118,7 @@ public class PostService {
                 .text(post.getText())
                 .statusPost(post.getStatusPost().toString())
                 .userCreator(user)
-                .courseId(post.getCourse().getId())
+                .course(post.getCourse())
                 .answers(post.getAnswers().stream().map(DataResponseBody::new).collect(Collectors.toList()))
                 .postDate(post.getPostDate())
                 .build();
